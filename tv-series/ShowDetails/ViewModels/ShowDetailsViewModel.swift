@@ -52,10 +52,17 @@ class ShowDetailsViewModel {
             .store(in: &cancellables)
     }
     
-    /// Returns a `Episode` at the given index, in the selected season.
+    /// Returns an `Episode` at the given index, in the selected season.
     func episode(at index: Int) -> Episode {
         let season = self.selectedSeason
         return self.episodesBySeason[season, default: []][index]
+    }
+
+    /// Returns an `Episode` with the given ID, in the selected season.
+    func episode(withID id: Episode.ID) -> Episode? {
+        let season = self.selectedSeason
+        let eps = self.episodesBySeason[season, default: []]
+        return eps.first { $0.id == id }
     }
     
     /// Returns all show's seasons.

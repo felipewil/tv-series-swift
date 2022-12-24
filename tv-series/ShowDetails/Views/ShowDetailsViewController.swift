@@ -168,5 +168,18 @@ extension ShowDetailsViewController: UITableViewDelegate {
         
         self.title = scrollView.contentOffset.y > 72.0 ? self.viewModel.name : nil
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        guard
+            let identifier = self.dataSource?.itemIdentifier(for: indexPath),
+            let episode = self.viewModel.episode(withID: identifier) else { return }
+
+        let detailsViewModel = EpisodeDetailsViewModel(episode: episode)
+        let detailsVC = EpisodeDetailsViewController(viewModel: detailsViewModel)
+
+        self.navigationController?.pushViewController(detailsVC, animated: true)
+    }
 
 }

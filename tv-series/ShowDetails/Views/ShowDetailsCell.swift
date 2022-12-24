@@ -268,38 +268,7 @@ class ShowDetailsCell: UITableViewCell {
     }
     
     private func setupSummary() {
-        let template = """
-        <!doctype html>
-        <html>
-          <head>
-            <style>
-              body {
-                font-family: -apple-system;
-                font-size: 17px;
-                text-align: justify;
-                background-color: red;
-              }
-        
-              p:last-child {
-                display: inline;
-              }
-            </style>
-          </head>
-          <body>
-            \(self.viewModel.summary ?? "<em>No summary</em>")
-          </body>
-        </html>
-        """
-
-        guard let data = template.data(using: .utf8) else {
-            return
-        }
-        
-        let attributedString = try? NSAttributedString(data: data,
-                                                       options: [ .documentType: NSAttributedString.DocumentType.html ],
-                                                       documentAttributes: nil)
-        
-        self.summaryContentLabel.attributedText = attributedString
+        self.summaryContentLabel.attributedText = .templatedHtml(self.viewModel.summary ?? "<em>No summary</em>")
     }
 
 }

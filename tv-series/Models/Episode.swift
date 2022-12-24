@@ -7,13 +7,16 @@
 
 import Foundation
 
-struct Episode: Codable {
+struct Episode: Codable, Identifiable {
+    typealias ID = Int
     
     var id: Int
     var name: String
     var season: Int
+    var number: Int
     var airdate: String?
     var image: Image?
     var runtime: Int?
+    var summary: String?
 
 }
