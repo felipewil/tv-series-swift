@@ -13,11 +13,6 @@ class ShowDetailsViewModel {
     
     let show: Show
     var name: String { self.show.name }
-    var genres: [ String ]? { self.show.genres }
-    var mediumImageUrl: String? { self.show.image?.medium }
-    var time: String? { self.show.schedule?.time }
-    var days: [ String ]? { self.show.schedule?.days }
-    var summary: String? { self.show.summary }
     
     // MARK: Initialization
     

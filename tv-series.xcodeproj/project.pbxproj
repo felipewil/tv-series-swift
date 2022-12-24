@@ -29,6 +29,8 @@
 		CDCC098929573B11001CDA4D /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCC098829573B11001CDA4D /* Schedule.swift */; };
 		CDCC098B29573BE0001CDA4D /* ChipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCC098A29573BE0001CDA4D /* ChipView.swift */; };
 		CDCC098D2957421D001CDA4D /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCC098C2957421D001CDA4D /* UIColor.swift */; };
+		CDCC098F29575AE4001CDA4D /* ShowDetailsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCC098E29575AE4001CDA4D /* ShowDetailsCell.swift */; };
+		CDCC099129575BF6001CDA4D /* ShowDetailsCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCC099029575BF6001CDA4D /* ShowDetailsCellViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +77,8 @@
 		CDCC098829573B11001CDA4D /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 		CDCC098A29573BE0001CDA4D /* ChipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChipView.swift; sourceTree = "<group>"; };
 		CDCC098C2957421D001CDA4D /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
+		CDCC098E29575AE4001CDA4D /* ShowDetailsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDetailsCell.swift; sourceTree = "<group>"; };
+		CDCC099029575BF6001CDA4D /* ShowDetailsCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDetailsCellViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -226,6 +230,7 @@
 			isa = PBXGroup;
 			children = (
 				CDCC0984295737D3001CDA4D /* ShowDetailsViewController.swift */,
+				CDCC098E29575AE4001CDA4D /* ShowDetailsCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -234,6 +239,7 @@
 			isa = PBXGroup;
 			children = (
 				CDCC09862957383A001CDA4D /* ShowDetailsViewModel.swift */,
+				CDCC099029575BF6001CDA4D /* ShowDetailsCellViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -371,6 +377,7 @@
 			files = (
 				CD361F642957251900D86A32 /* SearchResult.swift in Sources */,
 				CD361F592956885000D86A32 /* Show.swift in Sources */,
+				CDCC099129575BF6001CDA4D /* ShowDetailsCellViewModel.swift in Sources */,
 				CDCC098B29573BE0001CDA4D /* ChipView.swift in Sources */,
 				CD163DE929565F0A0009C43F /* ShowsListViewController.swift in Sources */,
 				CD163DE529565F0A0009C43F /* AppDelegate.swift in Sources */,
@@ -382,6 +389,7 @@
 				CD163DE729565F0A0009C43F /* SceneDelegate.swift in Sources */,
 				CD361F512956855A00D86A32 /* ShowsListViewModel.swift in Sources */,
 				CD361F57295685E600D86A32 /* Endpoints.swift in Sources */,
+				CDCC098F29575AE4001CDA4D /* ShowDetailsCell.swift in Sources */,
 				CD361F5D29568B9300D86A32 /* ShowCellViewModel.swift in Sources */,
 				CDCC098929573B11001CDA4D /* Schedule.swift in Sources */,
 				CDCC09872957383A001CDA4D /* ShowDetailsViewModel.swift in Sources */,

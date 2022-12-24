@@ -18,84 +18,30 @@ class ShowDetailsViewController: UIViewController {
         static let subtitleFontSize: CGFloat = 18.0
         static let bodyFontSize: CGFloat = 15.0
     }
+    
+    private enum Section: Int {
+        case details
+        case season
+    }
 
     // MARK: Properties
     
     private let viewModel: ShowDetailsViewModel!
+    private var dataSource: UITableViewDiffableDataSource<Section, Int>?
     private var cancellables: Set<AnyCancellable> = []
     
     // MARK: Subviews
-
-    lazy var titleLabel: UILabel = {
-        let label = UILabel()
-
-        label.numberOfLines = 0
-        label.font = .systemFont(ofSize: Consts.titleFontSize, weight: .semibold)
-        label.translatesAutoresizingMaskIntoConstraints = false
-
-        return label
-    }()
     
-    lazy var genreLabel: UILabel = {
-        let label = UILabel()
+    lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .plain)
 
-        label.numberOfLines = 0
-        label.font = .systemFont(ofSize: Consts.subtitleFontSize)
-        label.textColor = .systemGray
-        label.translatesAutoresizingMaskIntoConstraints = false
+        tableView.delegate = self
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.separatorStyle = .none
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(ShowDetailsCell.self, forCellReuseIdentifier: ShowDetailsCell.reuseIdentifier)
 
-        return label
-    }()
-    
-    lazy var summaryLabel: UILabel = {
-        let label = UILabel()
-
-        label.text = "Summary"
-        label.font = .systemFont(ofSize: Consts.subtitleFontSize, weight: .semibold)
-        label.translatesAutoresizingMaskIntoConstraints = false
-
-        return label
-    }()
-    
-    lazy var summaryContentLabel: UILabel = {
-        let label = UILabel()
-
-        label.numberOfLines = 0
-        label.font = .systemFont(ofSize: Consts.bodyFontSize)
-        label.translatesAutoresizingMaskIntoConstraints = false
-
-        return label
-    }()
-    
-    lazy var imageView: UIImageView = {
-        let imageView = UIImageView()
-
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFit
-
-        return imageView
-    }()
-    
-    lazy var timeStackView: UIStackView = {
-        let view = UIStackView()
-
-        view.spacing = 3.0
-        view.distribution = .fill
-        view.axis = .horizontal
-        view.translatesAutoresizingMaskIntoConstraints = false
-
-        return view
-    }()
-    
-    lazy var daysStackView: UIStackView = {
-        let view = UIStackView()
-
-        view.spacing = 3.0
-        view.distribution = .fill
-        view.axis = .horizontal
-        view.translatesAutoresizingMaskIntoConstraints = false
-
-        return view
+        return tableView
     }()
     
     // MARK: Initialization
@@ -112,172 +58,58 @@ class ShowDetailsViewController: UIViewController {
         super.init(coder: coder)
     }
     
+    // MARK: Public methods
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.dataSource = makeDataSource()
+        self.tableView.dataSource = self.dataSource
+        
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Int>()
+        snapshot.appendSections([ .details ])
+        snapshot.appendItems([ 0 ])
+        
+        self.dataSource?.apply(snapshot)
+    }
+    
     // MARK: Helpers
     
     private func setup() {
         self.view.backgroundColor = .white
-        self.view.addSubview(self.imageView)
-        self.view.addSubview(self.timeStackView)
-        self.view.addSubview(self.daysStackView)
-        self.view.addSubview(self.summaryLabel)
-        self.view.addSubview(self.summaryContentLabel)
-        
-        let titleWrapper = UIView()
-        titleWrapper.translatesAutoresizingMaskIntoConstraints = false
-        titleWrapper.addSubview(self.titleLabel)
-        titleWrapper.addSubview(self.genreLabel)
-        self.view.addSubview(titleWrapper)
+        self.view.addSubview(self.tableView)
         
         NSLayoutConstraint.activate([
-            self.imageView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: Consts.padding),
-            self.imageView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: Consts.padding),
-            self.imageView.heightAnchor.constraint(equalToConstant: Consts.imageSize),
-            self.imageView.widthAnchor.constraint(equalToConstant: Consts.imageSize),
+            self.tableView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor),
+            self.tableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            self.tableView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
+            self.tableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
         ])
-
-        NSLayoutConstraint.activate([
-            titleWrapper.leftAnchor.constraint(equalTo: self.imageView.rightAnchor, constant: Consts.padding),
-            titleWrapper.centerYAnchor.constraint(equalTo: self.imageView.centerYAnchor),
-            titleWrapper.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -Consts.padding),
-        ])
-        
-        NSLayoutConstraint.activate([
-            self.titleLabel.leftAnchor.constraint(equalTo: titleWrapper.leftAnchor),
-            self.titleLabel.topAnchor.constraint(equalTo: titleWrapper.topAnchor),
-            self.titleLabel.rightAnchor.constraint(equalTo: titleWrapper.rightAnchor),
-        ])
-        
-        NSLayoutConstraint.activate([
-            self.genreLabel.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor),
-            self.genreLabel.leftAnchor.constraint(equalTo: titleWrapper.leftAnchor),
-            self.genreLabel.rightAnchor.constraint(equalTo: titleWrapper.rightAnchor),
-            self.genreLabel.bottomAnchor.constraint(equalTo: titleWrapper.bottomAnchor),
-        ])
-
-        NSLayoutConstraint.activate([
-            self.daysStackView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: Consts.padding),
-            self.daysStackView.topAnchor.constraint(equalTo: self.imageView.bottomAnchor, constant: Consts.padding),
-            self.daysStackView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -Consts.padding),
-        ])
-
-        NSLayoutConstraint.activate([
-            self.timeStackView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: Consts.padding),
-            self.timeStackView.topAnchor.constraint(equalTo: self.daysStackView.bottomAnchor, constant: Consts.padding),
-            self.timeStackView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -Consts.padding),
-        ])
-        
-        NSLayoutConstraint.activate([
-            self.summaryLabel.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: Consts.padding),
-            self.summaryLabel.topAnchor.constraint(equalTo: self.timeStackView.bottomAnchor, constant: Consts.padding),
-            self.summaryLabel.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -Consts.padding),
-        ])
-        
-        NSLayoutConstraint.activate([
-            self.summaryContentLabel.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: Consts.padding),
-            self.summaryContentLabel.topAnchor.constraint(equalTo: self.summaryLabel.bottomAnchor),
-            self.summaryContentLabel.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -Consts.padding),
-        ])
-
-        if let imageUrl = self.viewModel.mediumImageUrl, let url = URL(string: imageUrl) {
-            self.imageView.loadImage(url: url)
-                .store(in: &cancellables)
-        }
-
-        self.titleLabel.text = self.viewModel.name
-        self.genreLabel.text = self.viewModel.genres?.joined(separator: ", ")
-
-        self.setupDays()
-        self.setupTime()
-        self.setupSummary()
     }
     
-    private func setupDays() {
-        let imageView = UIImageView(image: UIImage(systemName: "calendar"))
-        imageView.tintColor = .black
-        
-        NSLayoutConstraint.activate([
-            imageView.heightAnchor.constraint(equalToConstant: 24.0),
-            imageView.widthAnchor.constraint(equalToConstant: 24.0),
-        ])
-
-        self.daysStackView.addArrangedSubview(imageView)
-        self.viewModel.days?.forEach { day in
-            let translated = self.translateDay(day)
-            let chipView = ChipView(title: translated)
+    private func makeDataSource() -> UITableViewDiffableDataSource<Section, Int> {
+        return UITableViewDiffableDataSource(tableView: self.tableView) { tableView, indexPath, itemIdentifier in
+            if indexPath.section == Section.details.rawValue {
+                let viewModel = ShowDetailsCellViewModel(show: self.viewModel.show)
+                return ShowDetailsCell.dequeueReusableCell(from: tableView, viewModel: viewModel, for: indexPath)
+            } else if indexPath.section == Section.season.rawValue {
+                
+            }
             
-            self.daysStackView.addArrangedSubview(chipView)
-        }
-
-        if (self.viewModel?.days?.count ?? 0) < 5 {
-            let filler = UILabel(frame: .zero)
-            filler.text = " "
-            self.daysStackView.addArrangedSubview(filler)
-        } else {
-            self.daysStackView.distribution = .fillProportionally
+            return LoadingCell.dequeueReusableCell(from: tableView, for: indexPath)
         }
     }
 
-    private func setupTime() {
-        let imageView = UIImageView(image: UIImage(systemName: "clock"))
-        imageView.tintColor = .black
-        
-        NSLayoutConstraint.activate([
-            imageView.heightAnchor.constraint(equalToConstant: 24.0),
-            imageView.widthAnchor.constraint(equalToConstant: 24.0),
-        ])
+}
 
-        let chipView = ChipView(title: self.viewModel.time ?? "")
-        chipView.translatesAutoresizingMaskIntoConstraints = false
-        
-        let filler = UILabel(frame: .zero)
-        filler.text = " "
-        
-        self.timeStackView.addArrangedSubview(imageView)
-        self.timeStackView.addArrangedSubview(chipView)
-        self.timeStackView.addArrangedSubview(filler)
-    }
-    
-    private func translateDay(_ day: String) -> String {
-        switch day {
-        case "Monday": return "Mon"
-        case "Tuesday": return "Tue"
-        case "Wednesday": return "Wed"
-        case "Thursday": return "Thu"
-        case "Friday": return "Fri"
-        case "Saturday": return "Sat"
-        case "Sunday": return "Sun"
-        default: return ""
-        }
-    }
-    
-    private func setupSummary() {
-        let template = """
-        <!doctype html>
-        <html>
-          <head>
-            <style>
-              body {
-                font-family: -apple-system;
-                font-size: 17px;
-                text-align: justify;
-              }
-            </style>
-          </head>
-          <body>
-            \(self.viewModel.summary ?? "<em>No summary</em>")
-          </body>
-        </html>
-        """
+// MARK: -
 
-        guard let data = template.data(using: .utf8) else {
-            return
-        }
+extension ShowDetailsViewController: UITableViewDelegate {
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print("scroll", scrollView.contentOffset)
         
-        let attributedString = try? NSAttributedString(data: data,
-                                                       options: [ .documentType: NSAttributedString.DocumentType.html ],
-                                                       documentAttributes: nil)
-        
-        self.summaryContentLabel.attributedText = attributedString
+        self.title = scrollView.contentOffset.y > 72.0 ? self.viewModel.name : nil
     }
 
 }
