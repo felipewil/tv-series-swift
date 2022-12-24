@@ -118,7 +118,7 @@ class ShowCell: UITableViewCell {
         ])
         
         NSLayoutConstraint.activate([
-            self.nameLabel.topAnchor.constraint(equalTo: self.showImageView.topAnchor),
+            self.nameLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
             self.nameLabel.leftAnchor.constraint(equalTo: self.showImageView.rightAnchor, constant: Consts.padding),
             self.nameLabel.rightAnchor.constraint(equalTo: self.favoriteButton.leftAnchor, constant: -Consts.padding),
         ])

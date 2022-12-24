@@ -23,8 +23,10 @@ class ShowsListViewController: UIViewController {
     // MARK: Subviews
     
     lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .grouped)
+        let tableView = UITableView(frame: .zero, style: .insetGrouped)
 
+        // Hiding top distance between nav bar and table view
+        tableView.tableHeaderView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 0.0, height: CGFloat.leastNormalMagnitude))
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = Consts.estimatedRowSize
         tableView.register(LoadingCell.self, forCellReuseIdentifier: LoadingCell.reuseIdentifier)
@@ -40,6 +42,7 @@ class ShowsListViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        self.title = "Shows"
         self.setup()
         self.dataSource = makeDataSource()
         self.tableView.dataSource = self.dataSource
@@ -50,6 +53,7 @@ class ShowsListViewController: UIViewController {
             .store(in: &self.viewModel.cancellables)
         
         self.viewModel.$isLoading
+            .dropFirst()
             .receive(on: DispatchQueue.main)
             .sink { [ weak self ] isLoading in self?.showLoading(isLoading) }
             .store(in: &self.cancellables)
