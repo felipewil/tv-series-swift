@@ -14,6 +14,7 @@ enum Endpoint {
     enum Shows {
         case index(page: Int)
         case search(query: String)
+        case episodes(showId: Int)
         
         var url: URL? {
             switch self {
@@ -23,6 +24,8 @@ enum Endpoint {
             case .search(let query):
                 let queryItem = URLQueryItem(name: "q", value: query)
                 return baseUrl?.appending(component: "search/shows").appending(queryItems: [ queryItem ])
+            case .episodes(let showId):
+                return baseUrl?.appending(component: "shows/\(showId)/episodes")
             }
         }
     }

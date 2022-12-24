@@ -129,6 +129,7 @@ class ShowDetailsCell: UITableViewCell {
     // MARK: Helpers
     
     private func setup() {
+        self.selectionStyle = .none
         self.contentView.addSubview(self.showImageView)
         self.contentView.addSubview(self.timeStackView)
         self.contentView.addSubview(self.daysStackView)
@@ -189,7 +190,7 @@ class ShowDetailsCell: UITableViewCell {
             self.summaryContentLabel.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: Consts.padding),
             self.summaryContentLabel.topAnchor.constraint(equalTo: self.summaryLabel.bottomAnchor),
             self.summaryContentLabel.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -Consts.padding),
-            self.summaryContentLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -Consts.padding),
+            self.summaryContentLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
         ])
     }
     
@@ -276,6 +277,11 @@ class ShowDetailsCell: UITableViewCell {
                 font-family: -apple-system;
                 font-size: 17px;
                 text-align: justify;
+                background-color: red;
+              }
+        
+              p:last-child {
+                display: inline;
               }
             </style>
           </head>

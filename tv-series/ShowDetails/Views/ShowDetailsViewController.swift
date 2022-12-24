@@ -22,6 +22,12 @@ class ShowDetailsViewController: UIViewController {
     private enum Section: Int {
         case details
         case season
+        case episodes
+    }
+    
+    private enum Identifier: Int {
+        case details = -1
+        case seasons = -2
     }
 
     // MARK: Properties
@@ -38,8 +44,13 @@ class ShowDetailsViewController: UIViewController {
         tableView.delegate = self
         tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorStyle = .none
+        tableView.sectionHeaderTopPadding = 0.0
+        tableView.sectionFooterHeight = 0.0
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(EpisodeCell.self, forCellReuseIdentifier: EpisodeCell.reuseIdentifier)
+        tableView.register(LoadingCell.self, forCellReuseIdentifier: LoadingCell.reuseIdentifier)
         tableView.register(ShowDetailsCell.self, forCellReuseIdentifier: ShowDetailsCell.reuseIdentifier)
+        tableView.register(SeasonsCell.self, forCellReuseIdentifier: SeasonsCell.reuseIdentifier)
 
         return tableView
     }()
@@ -52,27 +63,30 @@ class ShowDetailsViewController: UIViewController {
 
         self.setup()
     }
-    
+
     required init?(coder: NSCoder) {
         self.viewModel = nil
         super.init(coder: coder)
     }
-    
+
     // MARK: Public methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.dataSource = makeDataSource()
+        self.dataSource?.defaultRowAnimation = .fade
         self.tableView.dataSource = self.dataSource
-        
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Int>()
-        snapshot.appendSections([ .details ])
-        snapshot.appendItems([ 0 ])
-        
-        self.dataSource?.apply(snapshot)
+
+        self.viewModel.eventPublisher
+            .receive(on: DispatchQueue.main)
+            .sink(receiveValue: self.handleEvent)
+            .store(in: &cancellables)
+
+        self.loadDetails()
+        self.viewModel.loadEpisodes()
     }
-    
+
     // MARK: Helpers
     
     private func setup() {
@@ -93,11 +107,41 @@ class ShowDetailsViewController: UIViewController {
                 let viewModel = ShowDetailsCellViewModel(show: self.viewModel.show)
                 return ShowDetailsCell.dequeueReusableCell(from: tableView, viewModel: viewModel, for: indexPath)
             } else if indexPath.section == Section.season.rawValue {
-                
+                return SeasonsCell.dequeueReusableCell(from: tableView, seasons: self.viewModel.seasons(), for: indexPath)
+            } else if indexPath.section == Section.episodes.rawValue {
+                let episode = self.viewModel.episode(at: indexPath.row)
+                let viewModel = EpisodeCellViewModel(episode: episode)
+                return EpisodeCell.dequeueReusableCell(from: tableView, viewModel: viewModel, for: indexPath)
             }
             
             return LoadingCell.dequeueReusableCell(from: tableView, for: indexPath)
         }
+    }
+    
+    private func handleEvent(_ event: ShowDetailsViewModelEvent) {
+        switch event {
+        case .episodesUpdated:
+            var snapshot = NSDiffableDataSourceSnapshot<Section, Int>()
+            snapshot.appendSections([ .details, .season, .episodes ])
+            snapshot.appendItems([ Identifier.details.rawValue ], toSection: .details)
+            snapshot.appendItems([ Identifier.seasons.rawValue ], toSection: .season)
+            
+            if let eps = self.viewModel.episodesBySeason[self.viewModel.selectedSeason] {
+                snapshot.appendItems(eps.map { $0.id }, toSection: .episodes)
+            }
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                self.dataSource?.apply(snapshot)
+            }
+        }
+    }
+    
+    private func loadDetails() {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Int>()
+        snapshot.appendSections([ .details ])
+        snapshot.appendItems([ Identifier.details.rawValue ])
+        
+        self.dataSource?.apply(snapshot)
     }
 
 }
