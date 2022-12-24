@@ -9,7 +9,7 @@ import UIKit
 import Combine
 
 enum SeasonsCellEvent {
-    case seasonSelected(number: Int)
+    case seasonSelected(index: Int)
 }
 
 class SeasonsCell: UITableViewCell {
@@ -23,7 +23,11 @@ class SeasonsCell: UITableViewCell {
     
     static let reuseIdentifier = "SeasonsCell"
     private var viewModel: ShowDetailsCellViewModel!
+    private let eventSubject = PassthroughSubject<SeasonsCellEvent, Never>()
 
+    var eventPublisher: AnyPublisher<SeasonsCellEvent, Never> {
+        return self.eventSubject.eraseToAnyPublisher()
+    }
     var cancellables: Set<AnyCancellable> = []
     
     // MARK: Subviews
@@ -96,6 +100,7 @@ class SeasonsCell: UITableViewCell {
     // MARK: Helpers
     
     private func setup() {
+        self.selectionStyle = .none
         self.contentView.addSubview(self.titleLabel)
         self.contentView.addSubview(self.scrollView)
         self.scrollView.addSubview(self.scrollViewContainer)
@@ -134,16 +139,35 @@ class SeasonsCell: UITableViewCell {
 
     private func prepareContent(seasons: [ Int ]) {
         self.seasonsStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
-        seasons.forEach { season in
-            let view = ChipView(title: "\(season)")
+        seasons.enumerated().forEach { (index, season) in
+            let view = ChipButtonView(title: "\(season)")
             view.translatesAutoresizingMaskIntoConstraints = false
             
             NSLayoutConstraint.activate([
                 view.widthAnchor.constraint(equalToConstant: 50.0)
             ])
+            
+            if index == 0 {
+                view.isSelected = true
+            }
+
+            view.addTarget(self, action: #selector(seasonTapped(_:)), for: .touchUpInside)
 
             self.seasonsStackView.addArrangedSubview(view)
         }
+    }
+    
+    @objc private func seasonTapped(_ chipView: ChipButtonView) {
+        guard let selectedIndex = self.seasonsStackView.arrangedSubviews.firstIndex(where: { $0 === chipView }) else { return }
+
+        UIView.animate(withDuration: 0.15, delay: 0.0) {
+            self.seasonsStackView.arrangedSubviews.enumerated().forEach { (index, view) in
+                guard let chip = view as? ChipButtonView else { return }
+                chip.isSelected = index == selectedIndex
+            }
+        }
+
+        self.eventSubject.send(.seasonSelected(index: selectedIndex))
     }
 
 }

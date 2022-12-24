@@ -20,10 +20,9 @@ class ShowDetailsViewModel {
     let show: Show
     var name: String { self.show.name }
     private(set) var episodesBySeason: [ Int: [ Episode ] ] = [:]
+    private(set) var selectedSeason = 1
     private let eventSubject = PassthroughSubject<ShowDetailsViewModelEvent, Never>()
     private var cancellables: Set<AnyCancellable> = []
-    
-    @Published var selectedSeason = 1
     
     var eventPublisher: AnyPublisher<ShowDetailsViewModelEvent, Never> {
         return eventSubject.eraseToAnyPublisher()
@@ -53,6 +52,7 @@ class ShowDetailsViewModel {
             .store(in: &cancellables)
     }
     
+    /// Returns a `Episode` at the given index, in the selected season.
     func episode(at index: Int) -> Episode {
         let season = self.selectedSeason
         return self.episodesBySeason[season, default: []][index]
@@ -61,6 +61,12 @@ class ShowDetailsViewModel {
     /// Returns all show's seasons.
     func seasons() -> [ Int ] {
         return self.episodesBySeason.map { $0.key }.sorted()
+    }
+    
+    /// Informs that a season was selected.
+    func seasonSelected(at index: Int) {
+        self.selectedSeason = self.seasons()[index]
+        self.eventSubject.send(.episodesUpdated)
     }
     
     // MARK: Helpers

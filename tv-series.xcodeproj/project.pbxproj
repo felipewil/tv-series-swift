@@ -26,6 +26,7 @@
 		CD361F642957251900D86A32 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD361F632957251900D86A32 /* SearchResult.swift */; };
 		CD916B2B295775510098F752 /* EpisodeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD916B2A295775510098F752 /* EpisodeCell.swift */; };
 		CD916B2D295775B40098F752 /* EpisodeCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD916B2C295775B40098F752 /* EpisodeCellViewModel.swift */; };
+		CD916B2F295789D10098F752 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD916B2E295789D10098F752 /* Image.swift */; };
 		CDCC0985295737D3001CDA4D /* ShowDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCC0984295737D3001CDA4D /* ShowDetailsViewController.swift */; };
 		CDCC09872957383A001CDA4D /* ShowDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCC09862957383A001CDA4D /* ShowDetailsViewModel.swift */; };
 		CDCC098929573B11001CDA4D /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCC098829573B11001CDA4D /* Schedule.swift */; };
@@ -79,6 +80,7 @@
 		CD361F632957251900D86A32 /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
 		CD916B2A295775510098F752 /* EpisodeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeCell.swift; sourceTree = "<group>"; };
 		CD916B2C295775B40098F752 /* EpisodeCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeCellViewModel.swift; sourceTree = "<group>"; };
+		CD916B2E295789D10098F752 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		CDCC0984295737D3001CDA4D /* ShowDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDetailsViewController.swift; sourceTree = "<group>"; };
 		CDCC09862957383A001CDA4D /* ShowDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDetailsViewModel.swift; sourceTree = "<group>"; };
 		CDCC098829573B11001CDA4D /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 			isa = PBXGroup;
 			children = (
 				CDCC099229576237001CDA4D /* Episode.swift */,
+				CD916B2E295789D10098F752 /* Image.swift */,
 				CDCC098829573B11001CDA4D /* Schedule.swift */,
 				CD361F632957251900D86A32 /* SearchResult.swift */,
 				CD361F582956885000D86A32 /* Show.swift */,
@@ -391,6 +394,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD361F642957251900D86A32 /* SearchResult.swift in Sources */,
+				CD916B2F295789D10098F752 /* Image.swift in Sources */,
 				CDCC099329576237001CDA4D /* Episode.swift in Sources */,
 				CD916B2D295775B40098F752 /* EpisodeCellViewModel.swift in Sources */,
 				CD361F592956885000D86A32 /* Show.swift in Sources */,

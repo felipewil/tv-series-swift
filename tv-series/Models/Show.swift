@@ -7,15 +7,6 @@
 
 import Foundation
 
-struct ShowImage: Codable {
-    
-    var medium: String?
-    var original: String?
-
-}
-
-// MARK: -
-
 struct Show: Codable, Hashable, Identifiable {
 
     typealias ID = Int
@@ -23,7 +14,7 @@ struct Show: Codable, Hashable, Identifiable {
     var id: Int
     var name: String
     var url: String
-    var image: ShowImage?
+    var image: Image?
     var genres: [ String ]?
     var schedule: Schedule?
     var summary: String?

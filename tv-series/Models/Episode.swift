@@ -13,5 +13,7 @@ struct Episode: Codable {
     var name: String
     var season: Int
     var airdate: String?
+    var image: Image?
+    var runtime: Int?
 
 }

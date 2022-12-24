@@ -107,7 +107,13 @@ class ShowDetailsViewController: UIViewController {
                 let viewModel = ShowDetailsCellViewModel(show: self.viewModel.show)
                 return ShowDetailsCell.dequeueReusableCell(from: tableView, viewModel: viewModel, for: indexPath)
             } else if indexPath.section == Section.season.rawValue {
-                return SeasonsCell.dequeueReusableCell(from: tableView, seasons: self.viewModel.seasons(), for: indexPath)
+                let cell = SeasonsCell.dequeueReusableCell(from: tableView, seasons: self.viewModel.seasons(), for: indexPath)
+
+                cell.eventPublisher
+                    .sink(receiveValue: self.handleSeasonsEvent)
+                    .store(in: &cell.cancellables)
+
+                return cell
             } else if indexPath.section == Section.episodes.rawValue {
                 let episode = self.viewModel.episode(at: indexPath.row)
                 let viewModel = EpisodeCellViewModel(episode: episode)
@@ -125,7 +131,7 @@ class ShowDetailsViewController: UIViewController {
             snapshot.appendSections([ .details, .season, .episodes ])
             snapshot.appendItems([ Identifier.details.rawValue ], toSection: .details)
             snapshot.appendItems([ Identifier.seasons.rawValue ], toSection: .season)
-            
+
             if let eps = self.viewModel.episodesBySeason[self.viewModel.selectedSeason] {
                 snapshot.appendItems(eps.map { $0.id }, toSection: .episodes)
             }
@@ -133,6 +139,13 @@ class ShowDetailsViewController: UIViewController {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 self.dataSource?.apply(snapshot)
             }
+        }
+    }
+    
+    private func handleSeasonsEvent(_ event: SeasonsCellEvent) {
+        switch event {
+        case .seasonSelected(let index):
+            self.viewModel.seasonSelected(at: index)
         }
     }
     

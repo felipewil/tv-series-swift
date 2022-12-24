@@ -13,6 +13,8 @@ struct EpisodeCellViewModel {
     
     private let episode: Episode
     var name: String { self.episode.name }
+    var mediumImageUrl: String? { self.episode.image?.medium }
+    var airdate: String? { self.episode.airdate }
     
     // MARK: Initialization
     

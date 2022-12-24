@@ -16,11 +16,16 @@ class ChipButtonView: UIButton {
         static let fontSize: CGFloat = 13.0
         static let foregroundColor = "#FFFFFF"
         static let backgroundColor = "#242424"
+        static let selectedForegroundColor = "#242424"
+        static let selectedBackgroundColor = "#FFFFFF"
     }
 
     // MARK: Properties
     
     private let title: String
+    override var isSelected: Bool {
+        didSet { self.update() }
+    }
     
     // MARK: Subviews
     
@@ -41,12 +46,25 @@ class ChipButtonView: UIButton {
     // MARK: Setup
     
     private func setup() {
-        self.backgroundColor = UIColor(hex: Consts.backgroundColor)
-
-        self.titleLabel?.text = self.title
-        self.titleLabel?.textColor = UIColor(hex: Consts.foregroundColor)
+        self.setTitle(self.title, for: .normal)
         self.titleLabel?.font = .systemFont(ofSize: Consts.fontSize, weight: .semibold)
         self.layer.cornerRadius = Consts.cornerRadius
+        
+        self.setTitleColor(UIColor(hex: Consts.selectedForegroundColor), for: .highlighted)
+        self.setTitleColor(UIColor(hex: Consts.foregroundColor), for: .normal)
+        self.backgroundColor = UIColor(hex: self.isSelected ? Consts.selectedBackgroundColor : Consts.backgroundColor)
+
+        self.update()
+    }
+    
+    private func update() {
+        self.backgroundColor = UIColor(hex: self.isSelected ? Consts.selectedBackgroundColor : Consts.backgroundColor)
+
+        let titleColor = UIColor(hex: self.isSelected ? Consts.selectedForegroundColor : Consts.foregroundColor)
+        self.setTitleColor(titleColor, for: .normal)
+        
+        self.layer.borderColor = titleColor?.cgColor
+        self.layer.borderWidth = self.isSelected ? 0.5 : 0.0
     }
 
 }
