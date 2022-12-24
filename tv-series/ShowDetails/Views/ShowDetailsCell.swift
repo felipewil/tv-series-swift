@@ -209,6 +209,8 @@ class ShowDetailsCell: UITableViewCell {
     }
     
     private func setupDays() {
+        self.daysStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        
         let imageView = UIImageView(image: UIImage(systemName: "calendar"))
         imageView.tintColor = .black
         
@@ -235,6 +237,8 @@ class ShowDetailsCell: UITableViewCell {
     }
 
     private func setupTime() {
+        self.timeStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+
         let imageView = UIImageView(image: UIImage(systemName: "clock"))
         imageView.tintColor = .black
         

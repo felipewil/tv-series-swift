@@ -15,9 +15,14 @@ enum ShowsListEvent {
 
 class ShowsListViewModel {
 
+    private enum Mode {
+        case list, search
+    }
+    
     // MARK: Properties
     
     private let urlSession: URLSession
+    private var mode: Mode = .list
     private var currentPage = 1
     private(set) var shows: [ Show ] = []
     private(set) var searchResults: [ Show ] = []
@@ -82,6 +87,10 @@ class ShowsListViewModel {
     
     /// Returns the show at the given index.
     func show(withID id: Show.ID) -> Show? {
+        if self.mode == .search {
+            return self.searchResults.first { $0.id == id }
+        }
+        
         return self.shows.first { $0.id == id }
     }
     
@@ -95,6 +104,7 @@ class ShowsListViewModel {
         guard let query else { return }
 
         self.search = query
+        self.mode = .search
         
         guard let url = Endpoint.Shows.search(query: self.search).url else { return }
         
@@ -120,6 +130,7 @@ class ShowsListViewModel {
     }
     
     func searchCancelled() {
+        self.mode = .list
         self.search = ""
         self.eventSubject.send(.showsUpdated)
     }

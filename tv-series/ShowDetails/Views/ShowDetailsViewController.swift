@@ -28,6 +28,7 @@ class ShowDetailsViewController: UIViewController {
     private enum Identifier: Int {
         case details = -1
         case seasons = -2
+        case loadingSeasons = -3
     }
 
     // MARK: Properties
@@ -73,7 +74,7 @@ class ShowDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.dataSource = makeDataSource()
         self.dataSource?.defaultRowAnimation = .fade
         self.tableView.dataSource = self.dataSource
@@ -107,6 +108,10 @@ class ShowDetailsViewController: UIViewController {
                 let viewModel = ShowDetailsCellViewModel(show: self.viewModel.show)
                 return ShowDetailsCell.dequeueReusableCell(from: tableView, viewModel: viewModel, for: indexPath)
             } else if indexPath.section == Section.season.rawValue {
+                if itemIdentifier == Identifier.loadingSeasons.rawValue {
+                    return LoadingCell.dequeueReusableCell(from: tableView, description: "Loading episodes", for: indexPath)
+                }
+
                 let cell = SeasonsCell.dequeueReusableCell(from: tableView, seasons: self.viewModel.seasons(), for: indexPath)
 
                 cell.eventPublisher
@@ -151,8 +156,9 @@ class ShowDetailsViewController: UIViewController {
     
     private func loadDetails() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Int>()
-        snapshot.appendSections([ .details ])
-        snapshot.appendItems([ Identifier.details.rawValue ])
+        snapshot.appendSections([ .details, .season ])
+        snapshot.appendItems([ Identifier.details.rawValue ], toSection: .details)
+        snapshot.appendItems([ Identifier.loadingSeasons.rawValue ], toSection: .season)
         
         self.dataSource?.apply(snapshot)
     }
@@ -162,12 +168,6 @@ class ShowDetailsViewController: UIViewController {
 // MARK: -
 
 extension ShowDetailsViewController: UITableViewDelegate {
-
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print("scroll", scrollView.contentOffset)
-        
-        self.title = scrollView.contentOffset.y > 72.0 ? self.viewModel.name : nil
-    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
