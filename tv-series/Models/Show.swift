@@ -24,6 +24,9 @@ struct Show: Codable, Hashable, Identifiable {
     var name: String
     var url: String
     var image: ShowImage?
+    var genres: [ String ]?
+    var schedule: Schedule?
+    var summary: String?
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)

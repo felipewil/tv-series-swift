@@ -80,6 +80,11 @@ class ShowsListViewModel {
         return self.shows[index]
     }
     
+    /// Returns the show at the given index.
+    func show(withID id: Show.ID) -> Show? {
+        return self.shows.first { $0.id == id }
+    }
+    
     /// Returns a search result at the given index.
     func searchResult(at index: Int) -> Show {
         return self.searchResults[index]

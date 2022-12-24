@@ -115,6 +115,7 @@ class ShowsListViewController: UIViewController {
                     configuration.textProperties.alignment = .center
                     
                     cell.contentConfiguration = configuration
+                    cell.selectionStyle = .none
                     
                     return cell
                 } else if itemIdentifier == Identifiers.loadingSearch.rawValue {
@@ -203,6 +204,19 @@ extension ShowsListViewController: UITableViewDelegate {
               self.viewModel.hasMore else { return }
 
         self.viewModel.loadNextPage()
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        guard
+            let identifier = self.dataSource?.itemIdentifier(for: indexPath),
+            let show = self.viewModel.show(withID: identifier) else { return }
+        
+        let detailsViewModel = ShowDetailsViewModel(show: show)
+        let detailsVC = ShowDetailsViewController(viewModel: detailsViewModel)
+        
+        self.navigationController?.pushViewController(detailsVC, animated: true)
     }
 
 }

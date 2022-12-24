@@ -24,6 +24,11 @@
 		CD361F5F29568C6A00D86A32 /* UIImageView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD361F5E29568C6A00D86A32 /* UIImageView+Extensions.swift */; };
 		CD361F62295693CD00D86A32 /* LoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD361F61295693CD00D86A32 /* LoadingCell.swift */; };
 		CD361F642957251900D86A32 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD361F632957251900D86A32 /* SearchResult.swift */; };
+		CDCC0985295737D3001CDA4D /* ShowDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCC0984295737D3001CDA4D /* ShowDetailsViewController.swift */; };
+		CDCC09872957383A001CDA4D /* ShowDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCC09862957383A001CDA4D /* ShowDetailsViewModel.swift */; };
+		CDCC098929573B11001CDA4D /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCC098829573B11001CDA4D /* Schedule.swift */; };
+		CDCC098B29573BE0001CDA4D /* ChipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCC098A29573BE0001CDA4D /* ChipView.swift */; };
+		CDCC098D2957421D001CDA4D /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCC098C2957421D001CDA4D /* UIColor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +70,11 @@
 		CD361F5E29568C6A00D86A32 /* UIImageView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extensions.swift"; sourceTree = "<group>"; };
 		CD361F61295693CD00D86A32 /* LoadingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingCell.swift; sourceTree = "<group>"; };
 		CD361F632957251900D86A32 /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
+		CDCC0984295737D3001CDA4D /* ShowDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDetailsViewController.swift; sourceTree = "<group>"; };
+		CDCC09862957383A001CDA4D /* ShowDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDetailsViewModel.swift; sourceTree = "<group>"; };
+		CDCC098829573B11001CDA4D /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
+		CDCC098A29573BE0001CDA4D /* ChipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChipView.swift; sourceTree = "<group>"; };
+		CDCC098C2957421D001CDA4D /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +129,7 @@
 				CD163DE629565F0A0009C43F /* SceneDelegate.swift */,
 				CD361F60295693BA00D86A32 /* Components */,
 				CD361F53295685A800D86A32 /* Models */,
+				CD361F652957375800D86A32 /* ShowDetails */,
 				CD163E1429565F110009C43F /* ShowsList */,
 				CD361F522956859600D86A32 /* Utils */,
 				CD163DEA29565F0A0009C43F /* Main.storyboard */,
@@ -160,6 +171,7 @@
 			children = (
 				CD361F56295685E600D86A32 /* Endpoints.swift */,
 				CD361F5E29568C6A00D86A32 /* UIImageView+Extensions.swift */,
+				CDCC098C2957421D001CDA4D /* UIColor.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -168,6 +180,7 @@
 			isa = PBXGroup;
 			children = (
 				CD361F582956885000D86A32 /* Show.swift */,
+				CDCC098829573B11001CDA4D /* Schedule.swift */,
 				CD361F632957251900D86A32 /* SearchResult.swift */,
 			);
 			path = Models;
@@ -195,8 +208,34 @@
 			isa = PBXGroup;
 			children = (
 				CD361F61295693CD00D86A32 /* LoadingCell.swift */,
+				CDCC098A29573BE0001CDA4D /* ChipView.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		CD361F652957375800D86A32 /* ShowDetails */ = {
+			isa = PBXGroup;
+			children = (
+				CD361F662957376200D86A32 /* Views */,
+				CD361F672957376700D86A32 /* ViewModels */,
+			);
+			path = ShowDetails;
+			sourceTree = "<group>";
+		};
+		CD361F662957376200D86A32 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CDCC0984295737D3001CDA4D /* ShowDetailsViewController.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		CD361F672957376700D86A32 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				CDCC09862957383A001CDA4D /* ShowDetailsViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -332,8 +371,11 @@
 			files = (
 				CD361F642957251900D86A32 /* SearchResult.swift in Sources */,
 				CD361F592956885000D86A32 /* Show.swift in Sources */,
+				CDCC098B29573BE0001CDA4D /* ChipView.swift in Sources */,
 				CD163DE929565F0A0009C43F /* ShowsListViewController.swift in Sources */,
 				CD163DE529565F0A0009C43F /* AppDelegate.swift in Sources */,
+				CDCC098D2957421D001CDA4D /* UIColor.swift in Sources */,
+				CDCC0985295737D3001CDA4D /* ShowDetailsViewController.swift in Sources */,
 				CD361F5F29568C6A00D86A32 /* UIImageView+Extensions.swift in Sources */,
 				CD361F62295693CD00D86A32 /* LoadingCell.swift in Sources */,
 				CD361F5B29568B5700D86A32 /* ShowCell.swift in Sources */,
@@ -341,6 +383,8 @@
 				CD361F512956855A00D86A32 /* ShowsListViewModel.swift in Sources */,
 				CD361F57295685E600D86A32 /* Endpoints.swift in Sources */,
 				CD361F5D29568B9300D86A32 /* ShowCellViewModel.swift in Sources */,
+				CDCC098929573B11001CDA4D /* Schedule.swift in Sources */,
+				CDCC09872957383A001CDA4D /* ShowDetailsViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

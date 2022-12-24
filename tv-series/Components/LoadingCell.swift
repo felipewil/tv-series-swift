@@ -76,6 +76,7 @@ class LoadingCell: UITableViewCell {
     // MARK: Helpers
     
     private func setup() {
+        self.selectionStyle = .none
         self.contentView.addSubview(self.wrapperView)
         self.wrapperView.addSubview(self.activityIndicator)
         self.wrapperView.addSubview(self.descriptionLabel)
