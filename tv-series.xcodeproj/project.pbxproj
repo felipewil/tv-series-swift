@@ -23,6 +23,7 @@
 		CD361F5D29568B9300D86A32 /* ShowCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD361F5C29568B9300D86A32 /* ShowCellViewModel.swift */; };
 		CD361F5F29568C6A00D86A32 /* UIImageView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD361F5E29568C6A00D86A32 /* UIImageView+Extensions.swift */; };
 		CD361F62295693CD00D86A32 /* LoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD361F61295693CD00D86A32 /* LoadingCell.swift */; };
+		CD361F642957251900D86A32 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD361F632957251900D86A32 /* SearchResult.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		CD361F5C29568B9300D86A32 /* ShowCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowCellViewModel.swift; sourceTree = "<group>"; };
 		CD361F5E29568C6A00D86A32 /* UIImageView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extensions.swift"; sourceTree = "<group>"; };
 		CD361F61295693CD00D86A32 /* LoadingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingCell.swift; sourceTree = "<group>"; };
+		CD361F632957251900D86A32 /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,8 +119,8 @@
 				CD163DE629565F0A0009C43F /* SceneDelegate.swift */,
 				CD361F60295693BA00D86A32 /* Components */,
 				CD361F53295685A800D86A32 /* Models */,
-				CD361F522956859600D86A32 /* Utils */,
 				CD163E1429565F110009C43F /* ShowsList */,
+				CD361F522956859600D86A32 /* Utils */,
 				CD163DEA29565F0A0009C43F /* Main.storyboard */,
 				CD163DED29565F0B0009C43F /* Assets.xcassets */,
 				CD163DEF29565F0B0009C43F /* LaunchScreen.storyboard */,
@@ -166,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				CD361F582956885000D86A32 /* Show.swift */,
+				CD361F632957251900D86A32 /* SearchResult.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -327,6 +330,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD361F642957251900D86A32 /* SearchResult.swift in Sources */,
 				CD361F592956885000D86A32 /* Show.swift in Sources */,
 				CD163DE929565F0A0009C43F /* ShowsListViewController.swift in Sources */,
 				CD163DE529565F0A0009C43F /* AppDelegate.swift in Sources */,

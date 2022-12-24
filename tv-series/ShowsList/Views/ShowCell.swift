@@ -132,7 +132,9 @@ class ShowCell: UITableViewCell {
     }
     
     private func loadImage(viewModel: ShowCellViewModel) {
-        guard let url = URL(string: viewModel.mediumImageUrl) else { return }
+        guard
+            let imageUrl = viewModel.mediumImageUrl,
+            let url = URL(string: imageUrl) else { return }
 
         self.showImageView.loadImage(url: url).store(in: &cancellables)
     }

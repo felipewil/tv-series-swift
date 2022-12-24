@@ -16,7 +16,7 @@ struct ShowCellViewModel {
     private let urlSession: URLSession
     private let show: Show
     var name: String { self.show.name }
-    var mediumImageUrl: String { self.show.image.medium }
+    var mediumImageUrl: String? { self.show.image?.medium }
     
     // MARK: Initializers
 
@@ -28,7 +28,9 @@ struct ShowCellViewModel {
     // MARK: Public methods
     
     func loadImage() -> AnyPublisher<(URL, UIImage?), Error> {
-        guard let url = URL(string: self.mediumImageUrl) else { return Empty<(URL, UIImage?), Error>().eraseToAnyPublisher() }
+        guard
+            let imageUrl = self.mediumImageUrl,
+            let url = URL(string: imageUrl) else { return Empty<(URL, UIImage?), Error>().eraseToAnyPublisher() }
 
         return self.urlSession
             .dataTaskPublisher(for: url)
