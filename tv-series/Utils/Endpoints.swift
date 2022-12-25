@@ -13,6 +13,7 @@ enum Endpoint {
 
     enum Shows {
         case index(page: Int)
+        case show(id: Int)
         case search(query: String)
         case episodes(showId: Int)
         
@@ -21,6 +22,8 @@ enum Endpoint {
             case .index(let page):
                 let queryItem = URLQueryItem(name: "page", value: "\(page)")
                 return baseUrl?.appending(component: "shows").appending(queryItems: [ queryItem ])
+            case .show(let id):
+                return baseUrl?.appending(component: "shows/\(id)")
             case .search(let query):
                 let queryItem = URLQueryItem(name: "q", value: query)
                 return baseUrl?.appending(component: "search/shows").appending(queryItems: [ queryItem ])

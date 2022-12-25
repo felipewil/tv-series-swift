@@ -1,14 +1,14 @@
 //
-//  SeriesListViewController.swift
+//  FavoriteListViewController.swift
 //  tv-series
 //
-//  Created by Felipe Leite on 23/12/22.
+//  Created by Felipe Leite on 24/12/22.
 //
 
 import UIKit
 import Combine
 
-class ShowsListViewController: UIViewController {
+class FavoriteListViewController: UIViewController {
 
     private struct Consts {
         static let estimatedRowSize: CGFloat = 128.0
@@ -27,7 +27,7 @@ class ShowsListViewController: UIViewController {
 
     // MARK: Properties
 
-    private let viewModel = ShowsListViewModel()
+    private let viewModel = FavoriteListViewModel()
     private var dataSource: UITableViewDiffableDataSource<Section, Show.ID>?
     private var cancellables: Set<AnyCancellable> = []
 
@@ -60,7 +60,7 @@ class ShowsListViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        self.title = "Shows"
+        self.title = "Favorites"
         self.setup()
         self.dataSource = makeDataSource()
         self.dataSource?.defaultRowAnimation = .fade
@@ -68,7 +68,7 @@ class ShowsListViewController: UIViewController {
 
         self.viewModel.eventPublisher
             .receive(on: DispatchQueue.main)
-            .sink { [ weak self ] event in self?.handleShowsListEvent(event) }
+            .sink { [ weak self ] event in self?.handleListEvent(event) }
             .store(in: &self.viewModel.cancellables)
         
         self.viewModel.$isLoading
@@ -76,8 +76,12 @@ class ShowsListViewController: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [ weak self ] isLoading in self?.showLoading(isLoading) }
             .store(in: &self.cancellables)
-
-        self.viewModel.loadNextPage()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.viewModel.loadFavorites()
     }
 
     // MARK: Helpers
@@ -105,13 +109,7 @@ class ShowsListViewController: UIViewController {
 
                 let show = self.viewModel.show(at: indexPath.row)
                 let viewModel = ShowCellViewModel(show: show)
-                let cell = ShowCell.dequeueReusableCell(from: tableView, viewModel: viewModel, for: indexPath)
-                
-                cell.eventPublisher
-                    .sink { self.handleShowCellEvent($0, at: indexPath )}
-                    .store(in: &cell.cancellables)
-
-                return cell
+                return ShowCell.dequeueReusableCell(from: tableView, viewModel: viewModel, for: indexPath)
             } else if indexPath.section == Section.search.rawValue {
                 if itemIdentifier == Identifiers.emptySearch.rawValue {
                     let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
@@ -119,31 +117,25 @@ class ShowsListViewController: UIViewController {
 
                     configuration.text = "Type a show name"
                     configuration.textProperties.alignment = .center
-                    
+
                     cell.contentConfiguration = configuration
                     cell.selectionStyle = .none
-                    
+
                     return cell
                 } else if itemIdentifier == Identifiers.loadingSearch.rawValue {
                     return LoadingCell.dequeueReusableCell(from: tableView, description: "Searching", for: indexPath)
                 }
-
-                let show = self.viewModel.searchResult(at: indexPath.row)
-                let viewModel = ShowCellViewModel(show: show)
-                let cell = ShowCell.dequeueReusableCell(from: tableView, viewModel: viewModel, for: indexPath)
-
-                cell.eventPublisher
-                    .sink { self.handleShowCellEvent($0, at: indexPath )}
-                    .store(in: &cell.cancellables)
-
-                return cell
+                
+//                let show = self.viewModel.searchResult(at: indexPath.row)
+//                let viewModel = ShowCellViewModel(show: show)
+//                return ShowCell.dequeueReusableCell(from: tableView, viewModel: viewModel, for: indexPath)
             }
             
             return LoadingCell.dequeueReusableCell(from: tableView, for: indexPath)
         }
     }
 
-    private func handleShowsListEvent(_ event: ShowsListEvent) {
+    private func handleListEvent(_ event: FavoriteListEvent) {
         switch event {
         case .showsUpdated:
             var snapshot = NSDiffableDataSourceSnapshot<Section, Show.ID>()
@@ -152,30 +144,6 @@ class ShowsListViewController: UIViewController {
             snapshot.appendItems(self.viewModel.showsIDs(), toSection: .list)
 
             self.dataSource?.apply(snapshot)
-        case .showsSearched:
-            var snapshot = NSDiffableDataSourceSnapshot<Section, Show.ID>()
-
-            snapshot.appendSections([ .list, .search ])
-            snapshot.appendItems(self.viewModel.searchResults.map { $0.id }, toSection: .search)
-            
-            if self.viewModel.searchResults.count == 0 {
-                snapshot.appendItems([ Identifiers.emptySearch.rawValue ], toSection: .search)
-            }
-
-            self.dataSource?.apply(snapshot)
-        case .reloadShow(let id):
-            guard var snapshot = self.dataSource?.snapshot() else { return }
-
-            snapshot.reloadItems([ id ])
-            
-            self.dataSource?.apply(snapshot)
-        }
-    }
-    
-    private func handleShowCellEvent(_ event: ShowCellEvent, at indexPath: IndexPath) {
-        switch event {
-        case .favoriteChanged:
-            self.viewModel.showFavoritedChanged(at: indexPath.row)
         }
     }
     
@@ -202,7 +170,7 @@ class ShowsListViewController: UIViewController {
 
 // MARK: -
 
-extension ShowsListViewController: UISearchControllerDelegate, UISearchResultsUpdating {
+extension FavoriteListViewController: UISearchControllerDelegate, UISearchResultsUpdating {
 
     func updateSearchResults(for searchController: UISearchController) {
         if searchController.isActive {
@@ -217,15 +185,7 @@ extension ShowsListViewController: UISearchControllerDelegate, UISearchResultsUp
 
 // MARK: -
 
-extension ShowsListViewController: UITableViewDelegate {
-
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        guard indexPath.section == Section.list.rawValue,
-              indexPath.row > self.viewModel.numberOfShows() - 3,
-              self.viewModel.hasMoreShows() else { return }
-
-        self.viewModel.loadNextPage()
-    }
+extension FavoriteListViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)

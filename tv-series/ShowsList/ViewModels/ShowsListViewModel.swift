@@ -11,6 +11,7 @@ import Combine
 enum ShowsListEvent {
     case showsUpdated
     case showsSearched
+    case reloadShow(id: Show.ID)
 }
 
 class ShowsListViewModel {
@@ -21,20 +22,15 @@ class ShowsListViewModel {
     
     // MARK: Properties
     
-    private let urlSession: URLSession
+    private let showsManager: ShowsManager
     private var mode: Mode = .list
-    private var currentPage = 1
-    private(set) var shows: [ Show ] = []
+
     private(set) var searchResults: [ Show ] = []
-    private(set) var hasMore = true
     private var eventSubject = PassthroughSubject<ShowsListEvent, Never>()
-    private var search = ""
 
     var cancellables: Set<AnyCancellable> = []
-    var searchCancellable: AnyCancellable?
 
     @Published private(set) var isLoading = false
-    @Published private(set) var isSearching = false
 
     var eventPublisher: AnyPublisher<ShowsListEvent, Never> {
         return self.eventSubject.eraseToAnyPublisher()
@@ -42,47 +38,27 @@ class ShowsListViewModel {
     
     // MARK: Initialization
     
-    init(urlSession: URLSession = .shared) {
-        self.urlSession = urlSession
+    init(showsManager: ShowsManager = .shared) {
+        self.showsManager = showsManager
     }
     
     // MARK: Public methods
     
     /// Loads the next page of shows
     func loadNextPage() {
-        guard let url = Endpoint.Shows.index(page: currentPage).url else { return }
-        
-        self.isLoading = true
-
-        self.urlSession.dataTaskPublisher(for: url)
-            .map(\.data)
-            .decode(type: [ Show ].self, decoder: JSONDecoder())
-            .catch { [ weak self ] error in
-                self?.hasMore = false
-                self?.isLoading = false
-                
-                return Empty<[ Show ], Never>()
-            }
-            .sink { _ in } receiveValue: { [ weak self ] shows in
-                guard let self else { return }
-
-                self.handleShowResults(shows)
-                self.isLoading = false
-                self.hasMore = shows.count > 0
-                self.currentPage += 1
-                
-                if self.currentPage == 3 {
-                    self.currentPage = 999
-                }
-
-                self.eventSubject.send(.showsUpdated)
-            }
-            .store(in: &cancellables)
+        self.showsManager.loadNextPage { [ weak self ] in
+            self?.eventSubject.send(.showsUpdated)
+        }
     }
     
     /// Returns the show at the given index.
     func show(at index: Int) -> Show {
-        return self.shows[index]
+        return self.showsManager.shows[index]
+    }
+    
+    /// Returns array of all show's IDs.
+    func showsIDs() -> [ Show.ID ] {
+        return self.showsManager.shows.map { $0.id }
     }
     
     /// Returns the show at the given index.
@@ -91,7 +67,17 @@ class ShowsListViewModel {
             return self.searchResults.first { $0.id == id }
         }
         
-        return self.shows.first { $0.id == id }
+        return self.showsManager.shows.first { $0.id == id }
+    }
+    
+    /// Number of loaded shows.
+    func numberOfShows() -> Int {
+        return self.showsManager.shows.count
+    }
+    
+    /// Whether there are more shows to be loaded.
+    func hasMoreShows() -> Bool {
+        return self.showsManager.hasMore
     }
     
     /// Returns a search result at the given index.
@@ -103,52 +89,36 @@ class ShowsListViewModel {
     func searchShows(for query: String?) {
         guard let query else { return }
 
-        self.search = query
         self.mode = .search
         
-        guard let url = Endpoint.Shows.search(query: self.search).url else { return }
-        
-        self.isSearching = true
-
-        self.searchCancellable?.cancel()
-        self.searchCancellable = self.urlSession.dataTaskPublisher(for: url)
-            .map(\.data)
-            .decode(type: [ SearchResult ].self, decoder: JSONDecoder())
-            .catch { [ weak self ] error in
-                self?.isSearching = false
-                
-                return Empty<[ SearchResult ], Never>()
-            }
-            .sink { _ in } receiveValue: { [ weak self ] results in
+        self.showsManager.searchShows(for: query)
+            .sink { [ weak self ] results in
                 guard let self else { return }
 
-                self.isSearching = false
-                self.handleSearchResults(results)
-
+                self.searchResults = results.map { $0.show }
                 self.eventSubject.send(.showsSearched)
             }
+            .store(in: &self.cancellables)
     }
-    
+
+    /// Search was cancelled, should exit search mode.
     func searchCancelled() {
         self.mode = .list
-        self.search = ""
         self.eventSubject.send(.showsUpdated)
     }
     
-    // MARK: Helpers
+    /// Show's favorite status changed at the given index.
+    func showFavoritedChanged(at index: Int) {
+        let show: Show
 
-    private func handleShowResults(_ shows: [ Show ]) {
-        shows.forEach { show in
-            if let index = self.shows.firstIndex(of: show) {
-                self.shows[index] = show
-            } else {
-                self.shows.append(show)
-            }
+        if self.mode == .search {
+            show = self.searchResults[index]
+        } else {
+            show = self.showsManager.shows[index]
         }
-    }
-    
-    private func handleSearchResults(_ results: [ SearchResult ]) {
-        self.searchResults = results.map { $0.show }
+
+        self.showsManager.toggleFavorite(for: show)
+        self.eventSubject.send(.reloadShow(id: show.id))
     }
 
 }

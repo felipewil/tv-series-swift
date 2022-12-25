@@ -85,11 +85,11 @@ class ShowCell: UITableViewCell {
         cell.viewModel = viewModel
         cell.nameLabel.text = viewModel.name
 
-//        if viewModel.isFavorite {
-//            cell.favoriteButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-//        } else {
-//            cell.favoriteButton.setImage(UIImage(systemName: "heart"), for: .normal)
-//        }
+        if viewModel.isFavorite() {
+            cell.favoriteButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        } else {
+            cell.favoriteButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        }
         
         cell.loadImage(viewModel: viewModel)
 
@@ -135,7 +135,8 @@ class ShowCell: UITableViewCell {
             let imageUrl = viewModel.mediumImageUrl,
             let url = URL(string: imageUrl) else { return }
 
-        self.showImageView.loadImage(url: url).store(in: &cancellables)
+        self.showImageView.loadImage(url: url)
+            .store(in: &cancellables)
     }
     
     @objc private func toggleFavorite() {

@@ -13,32 +13,23 @@ struct ShowCellViewModel {
 
     // MARK: Properties
     
-    private let urlSession: URLSession
+    private let showsManager: ShowsManager
     private let show: Show
     var name: String { self.show.name }
     var mediumImageUrl: String? { self.show.image?.medium }
     
     // MARK: Initializers
 
-    init(show: Show, urlSession: URLSession = .shared) {
+    init(show: Show, showsManager: ShowsManager = .shared) {
         self.show = show
-        self.urlSession = urlSession
+        self.showsManager = showsManager
     }
     
     // MARK: Public methods
     
-    func loadImage() -> AnyPublisher<(URL, UIImage?), Error> {
-        guard
-            let imageUrl = self.mediumImageUrl,
-            let url = URL(string: imageUrl) else { return Empty<(URL, UIImage?), Error>().eraseToAnyPublisher() }
-
-        return self.urlSession
-            .dataTaskPublisher(for: url)
-            .map(\.data)
-            .receive(on: DispatchQueue.main)
-            .map { (url, UIImage(data: $0)) }
-            .catch { error in Empty<(URL, UIImage?), Error>() }
-            .eraseToAnyPublisher()
+    /// Whether this show is a favorite.
+    func isFavorite() -> Bool {
+        return self.showsManager.isFavorite(self.show)
     }
 
 }
