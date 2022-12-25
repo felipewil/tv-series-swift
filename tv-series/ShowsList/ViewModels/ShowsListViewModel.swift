@@ -40,6 +40,7 @@ class ShowsListViewModel {
     
     init(showsManager: ShowsManager = .shared) {
         self.showsManager = showsManager
+        self.setupNotifications()
     }
     
     // MARK: Public methods
@@ -50,7 +51,7 @@ class ShowsListViewModel {
             self?.eventSubject.send(.showsUpdated)
         }
     }
-    
+
     /// Returns the show at the given index.
     func show(at index: Int) -> Show {
         return self.showsManager.shows[index]
@@ -119,6 +120,19 @@ class ShowsListViewModel {
 
         self.showsManager.toggleFavorite(for: show)
         self.eventSubject.send(.reloadShow(id: show.id))
+    }
+    
+    // MARK: Helpers
+    
+    private func setupNotifications() {
+        NotificationCenter.default
+            .publisher(for: .showFavoriteToggle)
+            .receive(on: DispatchQueue.main)
+            .sink { [ weak self ] notification in
+                guard let id = notification.userInfo?["id"] as? Int else { return }
+                self?.eventSubject.send(.reloadShow(id: id))
+            }
+            .store(in: &self.cancellables)
     }
 
 }

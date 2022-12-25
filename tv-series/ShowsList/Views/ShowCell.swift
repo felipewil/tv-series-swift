@@ -91,6 +91,7 @@ class ShowCell: UITableViewCell {
             cell.favoriteButton.setImage(UIImage(systemName: "heart"), for: .normal)
         }
         
+        cell.favoriteButton.alpha = viewModel.canFavorite ? 1.0 : 0.0
         cell.loadImage(viewModel: viewModel)
 
         return cell
@@ -140,6 +141,7 @@ class ShowCell: UITableViewCell {
     }
     
     @objc private func toggleFavorite() {
+        guard self.viewModel?.canFavorite == true else { return }
         self.eventSubject.send(.favoriteChanged)
     }
 

@@ -23,8 +23,6 @@ class FavoriteListViewModel {
 
     var cancellables: Set<AnyCancellable> = []
 
-    @Published private(set) var isLoading = false
-
     var eventPublisher: AnyPublisher<FavoriteListEvent, Never> {
         return self.eventSubject.eraseToAnyPublisher()
     }
@@ -76,6 +74,15 @@ class FavoriteListViewModel {
     /// Search was cancelled, should exit search mode.
     func searchCancelled() {
         self.search = ""
+        self.eventSubject.send(.showsUpdated)
+    }
+    
+    /// Removes a show with given ID from favorites.
+    func removeFavorite(withID id: Show.ID) {
+        guard let index = self.shows.firstIndex(where: { $0.id == id }) else { return }
+        
+        let show = self.shows.remove(at: index)
+        self.showsManager.removeFromFavorites(show)
         self.eventSubject.send(.showsUpdated)
     }
 

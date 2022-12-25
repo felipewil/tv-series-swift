@@ -15,13 +15,15 @@ struct ShowCellViewModel {
     
     private let showsManager: ShowsManager
     private let show: Show
+    private(set) var canFavorite: Bool
     var name: String { self.show.name }
     var mediumImageUrl: String? { self.show.image?.medium }
     
     // MARK: Initializers
 
-    init(show: Show, showsManager: ShowsManager = .shared) {
+    init(show: Show, canFavorite: Bool = true, showsManager: ShowsManager = .shared) {
         self.show = show
+        self.canFavorite = canFavorite
         self.showsManager = showsManager
     }
     

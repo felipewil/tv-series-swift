@@ -15,13 +15,12 @@ class FavoriteListViewController: UIViewController {
     }
     
     private enum Section: Int {
+        case empty
         case list
     }
     
     private enum Identifiers: Int {
-        case emptySearch = -1
-        case loadingSearch = -2
-        case loadingMore = -3
+        case empty = -1
     }
 
     // MARK: Properties
@@ -39,7 +38,6 @@ class FavoriteListViewController: UIViewController {
         tableView.tableHeaderView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 0.0, height: CGFloat.leastNormalMagnitude))
         tableView.sectionHeaderTopPadding = 0.0
         tableView.sectionHeaderHeight = 0.0
-        tableView.sectionFooterHeight = 6.0
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = Consts.estimatedRowSize
         tableView.delegate = self
@@ -65,16 +63,15 @@ class FavoriteListViewController: UIViewController {
         self.dataSource?.defaultRowAnimation = .fade
         self.tableView.dataSource = self.dataSource
 
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit",
+                                                                 image: nil,
+                                                                 target: self,
+                                                                 action: #selector(self.toggleEdit))
+
         self.viewModel.eventPublisher
             .receive(on: DispatchQueue.main)
             .sink { [ weak self ] event in self?.handleListEvent(event) }
             .store(in: &self.viewModel.cancellables)
-        
-        self.viewModel.$isLoading
-            .dropFirst()
-            .receive(on: DispatchQueue.main)
-            .sink { [ weak self ] isLoading in self?.showLoading(isLoading) }
-            .store(in: &self.cancellables)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -100,41 +97,55 @@ class FavoriteListViewController: UIViewController {
     }
     
     private func makeDataSource() -> UITableViewDiffableDataSource<Section, Show.ID> {
-        return UITableViewDiffableDataSource(tableView: self.tableView) { tableView, indexPath, itemIdentifier in
-            if indexPath.section == Section.list.rawValue {
-                if itemIdentifier == Identifiers.loadingMore.rawValue {
-                    return LoadingCell.dequeueReusableCell(from: tableView, description: "Loading favorites", for: indexPath)
-                }
+        let dataSource = FavoriteDataSource(tableView: self.tableView) { tableView, indexPath, itemIdentifier in
+            let section = self.dataSource?.sectionIdentifier(for: indexPath.section)
 
+            if section == Section.list {
                 let show = self.viewModel.show(at: indexPath.row)
-                let viewModel = ShowCellViewModel(show: show)
+                let viewModel = ShowCellViewModel(show: show, canFavorite: false)
                 return ShowCell.dequeueReusableCell(from: tableView, viewModel: viewModel, for: indexPath)
             }
             
-            return LoadingCell.dequeueReusableCell(from: tableView, for: indexPath)
+            let cell = UITableViewCell()
+            var config = cell.defaultContentConfiguration()
+            
+            config.text = "No favorites"
+            config.textProperties.alignment = .center
+            
+            cell.contentConfiguration = config
+            
+            return cell
         }
+
+        dataSource.onDelete = { [ weak self ] id in
+            self?.viewModel.removeFavorite(withID: id)
+        }
+
+        return dataSource
     }
 
     private func handleListEvent(_ event: FavoriteListEvent) {
         switch event {
         case .showsUpdated:
             var snapshot = NSDiffableDataSourceSnapshot<Section, Show.ID>()
+            let showsIDs = self.viewModel.showsIDs()
 
-            snapshot.appendSections([ .list ])
-            snapshot.appendItems(self.viewModel.showsIDs(), toSection: .list)
+            if showsIDs.count == 0 {
+                snapshot.appendSections([ .empty ])
+                snapshot.appendItems([ Identifiers.empty.rawValue ], toSection: .empty)
+            } else {
+                snapshot.appendSections([ .list ])
+                snapshot.appendItems(showsIDs, toSection: .list)
+            }
 
             self.dataSource?.apply(snapshot)
         }
     }
-    
-    private func showLoading(_ show: Bool) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Show.ID>()
 
-        snapshot.appendSections([ .list ])
-        snapshot.appendItems(self.viewModel.showsIDs())
-        snapshot.appendItems([ Identifiers.loadingMore.rawValue ])
-
-        self.dataSource?.apply(snapshot)
+    @objc private func toggleEdit() {
+        UIView.animate(withDuration: 0.3, delay: 0.0) {
+            self.tableView.isEditing.toggle()
+        }
     }
 
 }
@@ -164,11 +175,36 @@ extension FavoriteListViewController: UITableViewDelegate {
         guard
             let identifier = self.dataSource?.itemIdentifier(for: indexPath),
             let show = self.viewModel.show(withID: identifier) else { return }
-        
+
         let detailsViewModel = ShowDetailsViewModel(show: show)
         let detailsVC = ShowDetailsViewController(viewModel: detailsViewModel)
-        
+
         self.navigationController?.pushViewController(detailsVC, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
+        return "Remove favorite"
+    }
+
+}
+
+// MARK: -
+
+extension FavoriteListViewController {
+ 
+    private class FavoriteDataSource: UITableViewDiffableDataSource<Section, Show.ID> {
+
+        var onDelete: ((Show.ID) -> Void)?
+        
+        override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+            return true
+        }
+        
+        override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+            guard let identifier = self.itemIdentifier(for: indexPath) else { return }
+            self.onDelete?(identifier)
+        }
+        
     }
 
 }

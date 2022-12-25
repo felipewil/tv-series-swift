@@ -33,6 +33,7 @@
 		CD916B3D2957A43D0098F752 /* FavoriteListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD916B3C2957A43D0098F752 /* FavoriteListViewController.swift */; };
 		CD916B422957A4890098F752 /* FavoriteListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD916B412957A4890098F752 /* FavoriteListViewModel.swift */; };
 		CD916B442957A5430098F752 /* ShowsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD916B432957A5430098F752 /* ShowsManager.swift */; };
+		CD916B462958E9EF0098F752 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD916B452958E9EF0098F752 /* Notifications.swift */; };
 		CDCC0985295737D3001CDA4D /* ShowDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCC0984295737D3001CDA4D /* ShowDetailsViewController.swift */; };
 		CDCC09872957383A001CDA4D /* ShowDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCC09862957383A001CDA4D /* ShowDetailsViewModel.swift */; };
 		CDCC098929573B11001CDA4D /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCC098829573B11001CDA4D /* Schedule.swift */; };
@@ -93,6 +94,7 @@
 		CD916B3C2957A43D0098F752 /* FavoriteListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteListViewController.swift; sourceTree = "<group>"; };
 		CD916B412957A4890098F752 /* FavoriteListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteListViewModel.swift; sourceTree = "<group>"; };
 		CD916B432957A5430098F752 /* ShowsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowsManager.swift; sourceTree = "<group>"; };
+		CD916B452958E9EF0098F752 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		CDCC0984295737D3001CDA4D /* ShowDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDetailsViewController.swift; sourceTree = "<group>"; };
 		CDCC09862957383A001CDA4D /* ShowDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDetailsViewModel.swift; sourceTree = "<group>"; };
 		CDCC098829573B11001CDA4D /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 			isa = PBXGroup;
 			children = (
 				CD361F56295685E600D86A32 /* Endpoints.swift */,
+				CD916B452958E9EF0098F752 /* Notifications.swift */,
 				CD916B37295798B80098F752 /* NSAttributedString+Extensions.swift */,
 				CD916B432957A5430098F752 /* ShowsManager.swift */,
 				CD361F5E29568C6A00D86A32 /* UIImageView+Extensions.swift */,
@@ -474,6 +477,7 @@
 				CD361F592956885000D86A32 /* Show.swift in Sources */,
 				CD916B2B295775510098F752 /* EpisodeCell.swift in Sources */,
 				CDCC099129575BF6001CDA4D /* ShowDetailsCellViewModel.swift in Sources */,
+				CD916B462958E9EF0098F752 /* Notifications.swift in Sources */,
 				CD916B36295795180098F752 /* EpisodeDetailsViewModel.swift in Sources */,
 				CD916B3B2957A2480098F752 /* TabsViewController.swift in Sources */,
 				CDCC098B29573BE0001CDA4D /* ChipView.swift in Sources */,
