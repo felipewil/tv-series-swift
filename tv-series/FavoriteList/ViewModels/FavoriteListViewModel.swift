@@ -13,10 +13,6 @@ enum FavoriteListEvent {
 }
 
 class FavoriteListViewModel {
-
-    private enum Mode {
-        case list, search
-    }
     
     // MARK: Properties
     

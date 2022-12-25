@@ -16,7 +16,6 @@ class FavoriteListViewController: UIViewController {
     
     private enum Section: Int {
         case list
-        case search
     }
     
     private enum Identifiers: Int {
@@ -104,31 +103,12 @@ class FavoriteListViewController: UIViewController {
         return UITableViewDiffableDataSource(tableView: self.tableView) { tableView, indexPath, itemIdentifier in
             if indexPath.section == Section.list.rawValue {
                 if itemIdentifier == Identifiers.loadingMore.rawValue {
-                    return LoadingCell.dequeueReusableCell(from: tableView, description: "Loading more shows", for: indexPath)
+                    return LoadingCell.dequeueReusableCell(from: tableView, description: "Loading favorites", for: indexPath)
                 }
 
                 let show = self.viewModel.show(at: indexPath.row)
                 let viewModel = ShowCellViewModel(show: show)
                 return ShowCell.dequeueReusableCell(from: tableView, viewModel: viewModel, for: indexPath)
-            } else if indexPath.section == Section.search.rawValue {
-                if itemIdentifier == Identifiers.emptySearch.rawValue {
-                    let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
-                    var configuration = cell.defaultContentConfiguration()
-
-                    configuration.text = "Type a show name"
-                    configuration.textProperties.alignment = .center
-
-                    cell.contentConfiguration = configuration
-                    cell.selectionStyle = .none
-
-                    return cell
-                } else if itemIdentifier == Identifiers.loadingSearch.rawValue {
-                    return LoadingCell.dequeueReusableCell(from: tableView, description: "Searching", for: indexPath)
-                }
-                
-//                let show = self.viewModel.searchResult(at: indexPath.row)
-//                let viewModel = ShowCellViewModel(show: show)
-//                return ShowCell.dequeueReusableCell(from: tableView, viewModel: viewModel, for: indexPath)
             }
             
             return LoadingCell.dequeueReusableCell(from: tableView, for: indexPath)
@@ -140,7 +120,7 @@ class FavoriteListViewController: UIViewController {
         case .showsUpdated:
             var snapshot = NSDiffableDataSourceSnapshot<Section, Show.ID>()
 
-            snapshot.appendSections([ .list, .search ])
+            snapshot.appendSections([ .list ])
             snapshot.appendItems(self.viewModel.showsIDs(), toSection: .list)
 
             self.dataSource?.apply(snapshot)
@@ -153,15 +133,6 @@ class FavoriteListViewController: UIViewController {
         snapshot.appendSections([ .list ])
         snapshot.appendItems(self.viewModel.showsIDs())
         snapshot.appendItems([ Identifiers.loadingMore.rawValue ])
-
-        self.dataSource?.apply(snapshot)
-    }
-    
-    private func showSearching(_ show: Bool) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Show.ID>()
-
-        snapshot.appendSections([ .list, .search ])
-        snapshot.appendItems([ Identifiers.loadingSearch.rawValue ], toSection: .search)
 
         self.dataSource?.apply(snapshot)
     }
