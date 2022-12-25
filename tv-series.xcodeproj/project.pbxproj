@@ -34,6 +34,8 @@
 		CD916B422957A4890098F752 /* FavoriteListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD916B412957A4890098F752 /* FavoriteListViewModel.swift */; };
 		CD916B442957A5430098F752 /* ShowsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD916B432957A5430098F752 /* ShowsManager.swift */; };
 		CD916B462958E9EF0098F752 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD916B452958E9EF0098F752 /* Notifications.swift */; };
+		CD916B4B2958EE650098F752 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD916B4A2958EE650098F752 /* SettingsViewController.swift */; };
+		CD916B4D2958EFC30098F752 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD916B4C2958EFC30098F752 /* SettingsViewModel.swift */; };
 		CDCC0985295737D3001CDA4D /* ShowDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCC0984295737D3001CDA4D /* ShowDetailsViewController.swift */; };
 		CDCC09872957383A001CDA4D /* ShowDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCC09862957383A001CDA4D /* ShowDetailsViewModel.swift */; };
 		CDCC098929573B11001CDA4D /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCC098829573B11001CDA4D /* Schedule.swift */; };
@@ -95,6 +97,8 @@
 		CD916B412957A4890098F752 /* FavoriteListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteListViewModel.swift; sourceTree = "<group>"; };
 		CD916B432957A5430098F752 /* ShowsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowsManager.swift; sourceTree = "<group>"; };
 		CD916B452958E9EF0098F752 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
+		CD916B4A2958EE650098F752 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		CD916B4C2958EFC30098F752 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		CDCC0984295737D3001CDA4D /* ShowDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDetailsViewController.swift; sourceTree = "<group>"; };
 		CDCC09862957383A001CDA4D /* ShowDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDetailsViewModel.swift; sourceTree = "<group>"; };
 		CDCC098829573B11001CDA4D /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
@@ -157,6 +161,7 @@
 			children = (
 				CD163DE429565F0A0009C43F /* AppDelegate.swift */,
 				CD163DE629565F0A0009C43F /* SceneDelegate.swift */,
+				CD916B472958EE3F0098F752 /* Settings */,
 				CD361F60295693BA00D86A32 /* Components */,
 				CD916B30295794C50098F752 /* EpisodeDetails */,
 				CD916B3E2957A4400098F752 /* FavoriteList */,
@@ -339,6 +344,31 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		CD916B472958EE3F0098F752 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				CD916B492958EE5B0098F752 /* Views */,
+				CD916B482958EE530098F752 /* ViewModels */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		CD916B482958EE530098F752 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				CD916B4C2958EFC30098F752 /* SettingsViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		CD916B492958EE5B0098F752 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CD916B4A2958EE650098F752 /* SettingsViewController.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -471,6 +501,7 @@
 			files = (
 				CD361F642957251900D86A32 /* SearchResult.swift in Sources */,
 				CD916B442957A5430098F752 /* ShowsManager.swift in Sources */,
+				CD916B4B2958EE650098F752 /* SettingsViewController.swift in Sources */,
 				CD916B2F295789D10098F752 /* Image.swift in Sources */,
 				CDCC099329576237001CDA4D /* Episode.swift in Sources */,
 				CD916B2D295775B40098F752 /* EpisodeCellViewModel.swift in Sources */,
@@ -493,6 +524,7 @@
 				CD361F62295693CD00D86A32 /* LoadingCell.swift in Sources */,
 				CD361F5B29568B5700D86A32 /* ShowCell.swift in Sources */,
 				CD163DE729565F0A0009C43F /* SceneDelegate.swift in Sources */,
+				CD916B4D2958EFC30098F752 /* SettingsViewModel.swift in Sources */,
 				CD361F512956855A00D86A32 /* ShowsListViewModel.swift in Sources */,
 				CD361F57295685E600D86A32 /* Endpoints.swift in Sources */,
 				CDCC098F29575AE4001CDA4D /* ShowDetailsCell.swift in Sources */,
@@ -682,7 +714,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "fasl.tv-series";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -712,7 +744,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "fasl.tv-series";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

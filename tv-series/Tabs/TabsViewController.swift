@@ -25,11 +25,18 @@ class TabsViewController: UITabBarController {
         let favoriteVC = FavoriteListViewController()
         let favoriteNavVC = UINavigationController(rootViewController: favoriteVC)
         favoriteNavVC.tabBarItem = favoriteTab
+        
+        let settingsTab = UITabBarItem(title: "Settings",
+                                   image: UIImage(systemName: "gearshape"),
+                                   selectedImage: UIImage(systemName: "gearshape.fill"))
+        let settingsVC = SettingsViewController()
+        let settingsNavVC = UINavigationController(rootViewController: settingsVC)
+        settingsNavVC.tabBarItem = settingsTab
 
         self.tabBar.backgroundColor = .systemGroupedBackground
         self.tabBar.isTranslucent = false
         self.tabBar.tintColor = UIColor(hex: "#242424")
-        self.viewControllers = [ navVC, favoriteNavVC ]
+        self.viewControllers = [ navVC, favoriteNavVC, settingsNavVC ]
     }
 
 }
