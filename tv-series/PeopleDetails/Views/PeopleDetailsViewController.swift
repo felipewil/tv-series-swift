@@ -166,7 +166,7 @@ class PeopleDetailsViewController: UIViewController {
                 var snapshot = self.dataSource?.snapshot(),
                 snapshot.indexOfItem(id) != nil else { return }
 
-            snapshot.reloadItems([ id ])
+            snapshot.reconfigureItems([ id ])
 
             self.dataSource?.apply(snapshot, animatingDifferences: false)
         }

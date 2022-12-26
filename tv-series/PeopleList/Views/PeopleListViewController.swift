@@ -138,7 +138,7 @@ class PeopleListViewController: UIViewController {
     private func handleLoading(_ isLoading: Bool) {
         guard var snapshot = self.dataSource?.snapshot() else { return }
 
-        snapshot.reloadItems([ Identifiers.header.rawValue ])
+        snapshot.reconfigureItems([ Identifiers.header.rawValue ])
 
         self.dataSource?.apply(snapshot)
     }

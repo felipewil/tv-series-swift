@@ -111,7 +111,7 @@ class PinSettingsViewController: UIViewController {
     private func reloadSettings() {
         guard var snapshot = self.dataSource?.snapshot() else { return }
 
-        snapshot.reloadItems(self.viewModel.options.map { $0.rawValue })
+        snapshot.reconfigureItems(self.viewModel.options.map { $0.rawValue })
 
         self.dataSource?.apply(snapshot)
     }
