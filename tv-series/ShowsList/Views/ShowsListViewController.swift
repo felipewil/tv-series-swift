@@ -27,7 +27,7 @@ class ShowsListViewController: UIViewController {
 
     // MARK: Properties
 
-    private let viewModel = ShowsListViewModel()
+    private var viewModel: ShowsListViewModel!
     private var dataSource: UITableViewDiffableDataSource<Section, Show.ID>?
     private var cancellables: Set<AnyCancellable> = []
 
@@ -53,6 +53,17 @@ class ShowsListViewController: UIViewController {
     }()
     
     lazy var searchController = UISearchController()
+    
+    // MARK: Initializations
+    
+    init(viewModel: ShowsListViewModel = ShowsListViewModel()) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
     
     // MARK: Public methods
     
@@ -131,7 +142,7 @@ class ShowsListViewController: UIViewController {
                     return LoadingCell.dequeueReusableCell(from: tableView, description: "Searching", for: indexPath)
                 }
 
-                let show = self.viewModel.searchResult(at: indexPath.row)
+                let show = self.viewModel.show(at: indexPath.row)
                 let viewModel = ShowCellViewModel(show: show)
                 let cell = ShowCell.dequeueReusableCell(from: tableView, viewModel: viewModel, for: indexPath)
 
@@ -225,11 +236,8 @@ extension ShowsListViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
-        guard
-            let identifier = self.dataSource?.itemIdentifier(for: indexPath),
-            let show = self.viewModel.show(withID: identifier) else { return }
-        
+
+        let show = self.viewModel.show(at: indexPath.row)
         let detailsViewModel = ShowDetailsViewModel(show: show)
         let detailsVC = ShowDetailsViewController(viewModel: detailsViewModel)
         

@@ -110,30 +110,7 @@ class ShowsListViewModelTests: XCTestCase {
         XCTAssertEqual(self.viewModel.show(at: 1).id, 2)
     }
     
-    func testShowsIDsShouldReturnMappedIDsFromShowsManager() {
-        // Given
-        self.showsManagerMock.showsStub = [
-            Show(id: 1, name: "Test 1"),
-            Show(id: 2, name: "Test 2")
-        ]
-        
-        // Then
-        XCTAssertEqual(self.viewModel.showsIDs(), [ 1, 2 ])
-    }
-    
-    func testShowsWithIDShouldFindFromShowsManager() {
-        // Given
-        self.showsManagerMock.showsStub = [
-            Show(id: 1, name: "Test 1"),
-            Show(id: 2, name: "Test 2")
-        ]
-        
-        // Then
-        XCTAssertEqual(self.viewModel.show(withID: 2)?.name, "Test 2")
-        XCTAssertEqual(self.viewModel.show(withID: 3)?.name, nil)
-    }
-    
-    func testShowsWithIDInSearchModeShouldFindFromShowsManager() {
+    func testShowsAtInSearchModeShouldFindFromShowsManager() {
         // Given
         self.showsManagerMock.showsStub = [
             Show(id: 1, name: "Test 1"),
@@ -147,8 +124,19 @@ class ShowsListViewModelTests: XCTestCase {
         ])
 
         // Then
-        XCTAssertEqual(self.viewModel.show(withID: 2)?.name, nil)
-        XCTAssertEqual(self.viewModel.show(withID: 3)?.name, "Test 3")
+        XCTAssertEqual(self.viewModel.show(at: 0).id, 3)
+        XCTAssertEqual(self.viewModel.show(at: 1).id, 4)
+    }
+    
+    func testShowsIDsShouldReturnMappedIDsFromShowsManager() {
+        // Given
+        self.showsManagerMock.showsStub = [
+            Show(id: 1, name: "Test 1"),
+            Show(id: 2, name: "Test 2")
+        ]
+        
+        // Then
+        XCTAssertEqual(self.viewModel.showsIDs(), [ 1, 2 ])
     }
     
     func testSearchCancelledShouldReloadShows() {

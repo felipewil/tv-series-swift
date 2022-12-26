@@ -21,7 +21,7 @@
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sparkles.tv" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="TmS-du-tnd">
                                         <rect key="frame" x="39" y="1.3333333333333286" width="128" height="126.33333333333334"/>
-                                        <color key="tintColor" red="0.1294117719" green="0.1294117719" blue="0.1294117719" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="tintColor" systemColor="labelColor"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="128" id="GwU-Uh-1Xl"/>
                                             <constraint firstAttribute="height" constant="128" id="nMf-5W-9FZ"/>
@@ -60,6 +60,9 @@
     </scenes>
     <resources>
         <image name="sparkles.tv" catalog="system" width="128" height="95"/>
+        <systemColor name="labelColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

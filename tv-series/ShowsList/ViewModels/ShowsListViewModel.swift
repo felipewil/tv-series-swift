@@ -54,21 +54,16 @@ class ShowsListViewModel {
 
     /// Returns the show at the given index.
     func show(at index: Int) -> Show {
+        if self.mode == .search {
+            return self.searchResults[index]
+        }
+        
         return self.showsManager.shows[index]
     }
     
     /// Returns array of all show's IDs.
     func showsIDs() -> [ Show.ID ] {
         return self.showsManager.shows.ids()
-    }
-    
-    /// Returns the show at the given index.
-    func show(withID id: Show.ID) -> Show? {
-        if self.mode == .search {
-            return self.searchResults.first { $0.id == id }
-        }
-        
-        return self.showsManager.shows.first { $0.id == id }
     }
     
     /// Number of loaded shows.
@@ -79,11 +74,6 @@ class ShowsListViewModel {
     /// Whether there are more shows to be loaded.
     func hasMoreShows() -> Bool {
         return self.showsManager.hasMore
-    }
-    
-    /// Returns a search result at the given index.
-    func searchResult(at index: Int) -> Show {
-        return self.searchResults[index]
     }
     
     /// Searchs shows with the given query.
