@@ -36,6 +36,14 @@
 		CD916B462958E9EF0098F752 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD916B452958E9EF0098F752 /* Notifications.swift */; };
 		CD916B4B2958EE650098F752 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD916B4A2958EE650098F752 /* SettingsViewController.swift */; };
 		CD916B4D2958EFC30098F752 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD916B4C2958EFC30098F752 /* SettingsViewModel.swift */; };
+		CD916B522958F2E10098F752 /* PinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD916B512958F2E10098F752 /* PinViewController.swift */; };
+		CD916B562958F3F30098F752 /* PinViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD916B552958F3F30098F752 /* PinViewModel.swift */; };
+		CD916B5B2958F6F90098F752 /* PinSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD916B5A2958F6F90098F752 /* PinSettingsViewController.swift */; };
+		CD916B5D2958F7310098F752 /* PinSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD916B5C2958F7310098F752 /* PinSettingsViewModel.swift */; };
+		CD916B5F2958FA5D0098F752 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD916B5E2958FA5D0098F752 /* KeychainHelper.swift */; };
+		CD916B6129590FD90098F752 /* PinTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD916B6029590FD90098F752 /* PinTextField.swift */; };
+		CD916B63295914940098F752 /* TabsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD916B62295914940098F752 /* TabsViewModel.swift */; };
+		CD916B65295914E80098F752 /* PinHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD916B64295914E80098F752 /* PinHelper.swift */; };
 		CDCC0985295737D3001CDA4D /* ShowDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCC0984295737D3001CDA4D /* ShowDetailsViewController.swift */; };
 		CDCC09872957383A001CDA4D /* ShowDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCC09862957383A001CDA4D /* ShowDetailsViewModel.swift */; };
 		CDCC098929573B11001CDA4D /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCC098829573B11001CDA4D /* Schedule.swift */; };
@@ -99,6 +107,14 @@
 		CD916B452958E9EF0098F752 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		CD916B4A2958EE650098F752 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		CD916B4C2958EFC30098F752 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		CD916B512958F2E10098F752 /* PinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinViewController.swift; sourceTree = "<group>"; };
+		CD916B552958F3F30098F752 /* PinViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinViewModel.swift; sourceTree = "<group>"; };
+		CD916B5A2958F6F90098F752 /* PinSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinSettingsViewController.swift; sourceTree = "<group>"; };
+		CD916B5C2958F7310098F752 /* PinSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinSettingsViewModel.swift; sourceTree = "<group>"; };
+		CD916B5E2958FA5D0098F752 /* KeychainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
+		CD916B6029590FD90098F752 /* PinTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinTextField.swift; sourceTree = "<group>"; };
+		CD916B62295914940098F752 /* TabsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsViewModel.swift; sourceTree = "<group>"; };
+		CD916B64295914E80098F752 /* PinHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinHelper.swift; sourceTree = "<group>"; };
 		CDCC0984295737D3001CDA4D /* ShowDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDetailsViewController.swift; sourceTree = "<group>"; };
 		CDCC09862957383A001CDA4D /* ShowDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDetailsViewModel.swift; sourceTree = "<group>"; };
 		CDCC098829573B11001CDA4D /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
@@ -161,6 +177,7 @@
 			children = (
 				CD163DE429565F0A0009C43F /* AppDelegate.swift */,
 				CD163DE629565F0A0009C43F /* SceneDelegate.swift */,
+				CD916B502958F2CE0098F752 /* Pin */,
 				CD916B472958EE3F0098F752 /* Settings */,
 				CD361F60295693BA00D86A32 /* Components */,
 				CD916B30295794C50098F752 /* EpisodeDetails */,
@@ -209,6 +226,8 @@
 				CD361F56295685E600D86A32 /* Endpoints.swift */,
 				CD916B452958E9EF0098F752 /* Notifications.swift */,
 				CD916B37295798B80098F752 /* NSAttributedString+Extensions.swift */,
+				CD916B5E2958FA5D0098F752 /* KeychainHelper.swift */,
+				CD916B64295914E80098F752 /* PinHelper.swift */,
 				CD916B432957A5430098F752 /* ShowsManager.swift */,
 				CD361F5E29568C6A00D86A32 /* UIImageView+Extensions.swift */,
 				CDCC098C2957421D001CDA4D /* UIColor+Extensions.swift */,
@@ -250,6 +269,7 @@
 			isa = PBXGroup;
 			children = (
 				CD361F61295693CD00D86A32 /* LoadingCell.swift */,
+				CD916B6029590FD90098F752 /* PinTextField.swift */,
 				CDCC098A29573BE0001CDA4D /* ChipView.swift */,
 				CDCC099629576D20001CDA4D /* ChipButtonView.swift */,
 			);
@@ -315,6 +335,7 @@
 			isa = PBXGroup;
 			children = (
 				CD916B3A2957A2480098F752 /* TabsViewController.swift */,
+				CD916B62295914940098F752 /* TabsViewModel.swift */,
 			);
 			path = Tabs;
 			sourceTree = "<group>";
@@ -369,6 +390,33 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		CD916B502958F2CE0098F752 /* Pin */ = {
+			isa = PBXGroup;
+			children = (
+				CD916B532958F3DB0098F752 /* Views */,
+				CD916B542958F3E50098F752 /* ViewModels */,
+			);
+			path = Pin;
+			sourceTree = "<group>";
+		};
+		CD916B532958F3DB0098F752 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CD916B512958F2E10098F752 /* PinViewController.swift */,
+				CD916B5A2958F6F90098F752 /* PinSettingsViewController.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		CD916B542958F3E50098F752 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				CD916B552958F3F30098F752 /* PinViewModel.swift */,
+				CD916B5C2958F7310098F752 /* PinSettingsViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -385,6 +433,8 @@
 			dependencies = (
 			);
 			name = "tv-series";
+			packageProductDependencies = (
+			);
 			productName = "tv-series";
 			productReference = CD163DE129565F0A0009C43F /* tv-series.app */;
 			productType = "com.apple.product-type.application";
@@ -457,6 +507,8 @@
 				Base,
 			);
 			mainGroup = CD163DD829565F0A0009C43F;
+			packageReferences = (
+			);
 			productRefGroup = CD163DE229565F0A0009C43F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -507,12 +559,17 @@
 				CD916B2D295775B40098F752 /* EpisodeCellViewModel.swift in Sources */,
 				CD361F592956885000D86A32 /* Show.swift in Sources */,
 				CD916B2B295775510098F752 /* EpisodeCell.swift in Sources */,
+				CD916B63295914940098F752 /* TabsViewModel.swift in Sources */,
+				CD916B562958F3F30098F752 /* PinViewModel.swift in Sources */,
 				CDCC099129575BF6001CDA4D /* ShowDetailsCellViewModel.swift in Sources */,
+				CD916B65295914E80098F752 /* PinHelper.swift in Sources */,
 				CD916B462958E9EF0098F752 /* Notifications.swift in Sources */,
 				CD916B36295795180098F752 /* EpisodeDetailsViewModel.swift in Sources */,
 				CD916B3B2957A2480098F752 /* TabsViewController.swift in Sources */,
+				CD916B6129590FD90098F752 /* PinTextField.swift in Sources */,
 				CDCC098B29573BE0001CDA4D /* ChipView.swift in Sources */,
 				CD163DE929565F0A0009C43F /* ShowsListViewController.swift in Sources */,
+				CD916B5D2958F7310098F752 /* PinSettingsViewModel.swift in Sources */,
 				CD916B38295798B80098F752 /* NSAttributedString+Extensions.swift in Sources */,
 				CD916B422957A4890098F752 /* FavoriteListViewModel.swift in Sources */,
 				CD916B3D2957A43D0098F752 /* FavoriteListViewController.swift in Sources */,
@@ -522,13 +579,16 @@
 				CD361F5F29568C6A00D86A32 /* UIImageView+Extensions.swift in Sources */,
 				CD916B33295794DD0098F752 /* EpisodeDetailsViewController.swift in Sources */,
 				CD361F62295693CD00D86A32 /* LoadingCell.swift in Sources */,
+				CD916B522958F2E10098F752 /* PinViewController.swift in Sources */,
 				CD361F5B29568B5700D86A32 /* ShowCell.swift in Sources */,
 				CD163DE729565F0A0009C43F /* SceneDelegate.swift in Sources */,
 				CD916B4D2958EFC30098F752 /* SettingsViewModel.swift in Sources */,
+				CD916B5B2958F6F90098F752 /* PinSettingsViewController.swift in Sources */,
 				CD361F512956855A00D86A32 /* ShowsListViewModel.swift in Sources */,
 				CD361F57295685E600D86A32 /* Endpoints.swift in Sources */,
 				CDCC098F29575AE4001CDA4D /* ShowDetailsCell.swift in Sources */,
 				CDCC0995295768B2001CDA4D /* SeasonsCell.swift in Sources */,
+				CD916B5F2958FA5D0098F752 /* KeychainHelper.swift in Sources */,
 				CD361F5D29568B9300D86A32 /* ShowCellViewModel.swift in Sources */,
 				CDCC098929573B11001CDA4D /* Schedule.swift in Sources */,
 				CDCC09872957383A001CDA4D /* ShowDetailsViewModel.swift in Sources */,

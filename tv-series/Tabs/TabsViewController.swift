@@ -6,8 +6,16 @@
 //
 
 import UIKit
+import Combine
 
 class TabsViewController: UITabBarController {
+
+    // MARK: Properties
+    
+    private let viewModel = TabsViewModel()
+    private var cancellables: Set<AnyCancellable> = []
+    
+    // MARK: Public methods
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +45,34 @@ class TabsViewController: UITabBarController {
         self.tabBar.isTranslucent = false
         self.tabBar.tintColor = UIColor(hex: "#242424")
         self.viewControllers = [ navVC, favoriteNavVC, settingsNavVC ]
+        
+        self.viewModel.$isLocked
+            .dropFirst()
+            .sink { isLocked in
+                guard isLocked else { return }
+                self.showLock()
+            }
+            .store(in: &self.cancellables)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.viewModel.checkIsLocked()
+    }
+    
+    // MARK: Helpers
+    
+    private func showLock() {
+        let viewModel = PinViewModel(isSetup: false)
+        let vc = PinViewController(viewModel: viewModel)
+        vc.modalPresentationStyle = .fullScreen
+        
+        vc.onClose = { [ weak self ] status in
+            guard status == .unlocked else { return }
+            self?.viewModel.unlocked()
+        }
+        
+        self.present(vc, animated: true)
     }
 
 }

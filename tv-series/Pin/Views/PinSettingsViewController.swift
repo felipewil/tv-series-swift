@@ -1,13 +1,14 @@
 //
-//  SettingsViewController.swift
+//  PinSettingsViewController.swift
 //  tv-series
 //
 //  Created by Felipe Leite on 25/12/22.
 //
 
 import UIKit
+import Combine
 
-class SettingsViewController: UIViewController {
+class PinSettingsViewController: UIViewController {
 
     private struct Consts {
         static let estimatedRowSize: CGFloat = 44.0
@@ -23,9 +24,10 @@ class SettingsViewController: UIViewController {
 
     // MARK: Properties
 
-    private let viewModel = SettingsViewModel()
+    private let viewModel = PinSettingsViewModel()
     private var dataSource: UITableViewDiffableDataSource<Section, Int>?
-
+    private var cancellables: Set<AnyCancellable> = []
+    
     // MARK: Subviews
     
     lazy var tableView: UITableView = {
@@ -37,7 +39,6 @@ class SettingsViewController: UIViewController {
         tableView.sectionHeaderHeight = 0.0
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = Consts.estimatedRowSize
-        tableView.delegate = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
 
         return tableView
@@ -49,12 +50,16 @@ class SettingsViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        self.title = "Settings"
+        self.title = "PIN"
         self.setup()
         self.dataSource = makeDataSource()
         self.dataSource?.defaultRowAnimation = .fade
         self.tableView.dataSource = self.dataSource
         self.loadSettings()
+        
+        self.viewModel.eventPublisher
+            .sink(receiveValue: self.handleEvent)
+            .store(in: &self.cancellables)
     }
 
     // MARK: Helpers
@@ -72,44 +77,71 @@ class SettingsViewController: UIViewController {
     
     private func makeDataSource() -> UITableViewDiffableDataSource<Section, Int> {
         return UITableViewDiffableDataSource(tableView: self.tableView) { tableView, indexPath, itemIdentifier in
-            let settings = self.viewModel.settings(at: indexPath.row)
+            let settings = self.viewModel.options[indexPath.row]
             let cell = UITableViewCell()
-            cell.selectionStyle = settings.canSelect ? .default : .none
-            
             var config = cell.defaultContentConfiguration()
             
             config.text = settings.title
+            cell.accessoryView = nil
+            cell.selectionStyle = .none
+
+            if settings == .pin {
+                self.preparePinCell(cell)
+            } else if settings == .fingerprint {
+                config.textProperties.color = self.viewModel.isPinEnabled() ? UIColor.label : UIColor.systemGray
+            }
             
             cell.contentConfiguration = config
             
             return cell
         }
     }
-    
+
     private func loadSettings() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Int>()
 
         snapshot.appendSections([ .list ])
-        snapshot.appendItems(self.viewModel.settings().map { $0.rawValue }, toSection: .list)
+        snapshot.appendItems(self.viewModel.options.map { $0.rawValue }, toSection: .list)
 
         self.dataSource?.apply(snapshot)
     }
+    
+    private func reloadSettings() {
+        guard var snapshot = self.dataSource?.snapshot() else { return }
 
-}
+        snapshot.reloadItems(self.viewModel.options.map { $0.rawValue })
 
-// MARK: -
-
-extension SettingsViewController: UITableViewDelegate {
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+        self.dataSource?.apply(snapshot)
+    }
+    
+    private func preparePinCell(_ cell: UITableViewCell) {
+        let switchView = UISwitch(frame: .zero)
+        switchView.addTarget(self, action: #selector(self.pinEnabled), for: .valueChanged)
+        switchView.isOn = self.viewModel.isPinEnabled()
         
-        let settings = self.viewModel.settings(at: indexPath.row)
-        
-        if settings == .pin {
-            let pinVC = PinSettingsViewController()
+        cell.accessoryView = switchView
+    }
 
-            self.navigationController?.pushViewController(pinVC, animated: true)
+    @objc private func pinEnabled(_ sender: UISwitch) {
+        self.viewModel.pinEnabled(sender.isOn)
+        self.reloadSettings()
+    }
+    
+    private func handleEvent(_ event: PinSettingsEvent) {
+        switch event {
+        case .setupPin:
+            let viewModel = PinViewModel(isSetup: true)
+            let vc = PinViewController(viewModel: viewModel)
+            vc.modalPresentationStyle = .fullScreen
+            vc.onClose = { status in
+                if status == .unlocked {
+                    self.viewModel.confirmPinEnabled()
+                }
+                
+                self.reloadSettings()
+            }
+            
+            self.present(vc, animated: true)
         }
     }
 
