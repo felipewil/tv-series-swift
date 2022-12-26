@@ -13,7 +13,6 @@ struct Show: Codable, Hashable, Identifiable {
 
     var id: Int
     var name: String
-    var url: String
     var image: Image?
     var genres: [ String ]?
     var schedule: Schedule?

@@ -28,7 +28,7 @@ class ShowsManager {
     
     // MARK: Initialization
     
-    private init(urlSession: URLSession = .shared, fileManager: FileManager = .default) {
+    init(urlSession: URLSession = .shared, fileManager: FileManager = .default) {
         self.urlSession = urlSession
         self.fileManager = fileManager
         self.loadFavorites()
