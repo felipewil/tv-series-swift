@@ -1,14 +1,14 @@
 //
-//  SettingsViewController.swift
+//  ThemeSettingsViewController.swift
 //  tv-series
 //
-//  Created by Felipe Leite on 25/12/22.
+//  Created by Felipe Leite on 26/12/22.
 //
 
 import UIKit
 import Combine
 
-class SettingsViewController: UIViewController {
+class ThemeSettingsViewController: UIViewController {
 
     private struct Consts {
         static let estimatedRowSize: CGFloat = 44.0
@@ -17,17 +17,13 @@ class SettingsViewController: UIViewController {
     private enum Section: Int {
         case list
     }
-    
-    private enum Identifiers: Int {
-        case empty = -1
-    }
 
     // MARK: Properties
 
-    private let viewModel = SettingsViewModel()
-    private var dataSource: UITableViewDiffableDataSource<Section, Int>?
+    private let viewModel = ThemeSettingsViewModel()
+    private var dataSource: UITableViewDiffableDataSource<Section, String>?
     private var cancellables: Set<AnyCancellable> = []
-
+    
     // MARK: Subviews
     
     lazy var tableView: UITableView = {
@@ -50,24 +46,20 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
-        self.title = "Settings"
+
+        self.title = "Theme"
         self.setup()
         self.dataSource = makeDataSource()
         self.dataSource?.defaultRowAnimation = .fade
         self.tableView.dataSource = self.dataSource
-        self.loadSettings()
-        
-        self.viewModel.eventPublisher
-            .sink { [ weak self ] event in self?.handleEvent(event) }
-            .store(in: &self.cancellables)
+        self.loadThemes()
     }
 
     // MARK: Helpers
     
     private func setup() {
         self.view.addSubview(self.tableView)
-        
+
         NSLayoutConstraint.activate([
             self.tableView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
             self.tableView.topAnchor.constraint(equalTo: self.view.topAnchor),
@@ -76,60 +68,48 @@ class SettingsViewController: UIViewController {
         ])
     }
     
-    private func makeDataSource() -> UITableViewDiffableDataSource<Section, Int> {
+    private func makeDataSource() -> UITableViewDiffableDataSource<Section, String> {
         return UITableViewDiffableDataSource(tableView: self.tableView) { tableView, indexPath, itemIdentifier in
-            let settings = self.viewModel.settings(at: indexPath.row)
+            let theme = self.viewModel.theme(at: indexPath.row)
             let cell = UITableViewCell()
-            cell.selectionStyle = settings.canSelect ? .default : .none
+            cell.accessoryType = self.viewModel.isCurrentTheme(theme) ? .checkmark : .none
             
             var config = cell.defaultContentConfiguration()
             
-            config.text = settings.title
-            config.secondaryText = settings.subtitle
-            config.secondaryTextProperties.color = .systemGray
-            config.prefersSideBySideTextAndSecondaryText = true
-            
+            config.text = theme.title
             cell.contentConfiguration = config
             
             return cell
         }
     }
-    
-    private func loadSettings() {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Int>()
+
+    private func loadThemes() {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, String>()
 
         snapshot.appendSections([ .list ])
-        snapshot.appendItems(self.viewModel.settings().map { $0.rawValue }, toSection: .list)
+        snapshot.appendItems(self.viewModel.allThemes().map { $0.rawValue }, toSection: .list)
 
         self.dataSource?.apply(snapshot, animatingDifferences: false)
     }
     
-    private func handleEvent(_ event: SettingsEvent) {
-        switch event {
-        case .reload: self.loadSettings()
-        }
+    private func reloadThemes() {
+        guard var snapshot = self.dataSource?.snapshot() else { return }
+
+        snapshot.reloadItems(self.viewModel.allThemes().map { $0.rawValue })
+
+        self.dataSource?.apply(snapshot)
     }
 
 }
 
 // MARK: -
 
-extension SettingsViewController: UITableViewDelegate {
+extension ThemeSettingsViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
-        let settings = self.viewModel.settings(at: indexPath.row)
-        
-        switch settings {
-        case .pin:
-            let vc = PinSettingsViewController()
-            self.navigationController?.pushViewController(vc, animated: true)
-        case .theme:
-            let vc = ThemeSettingsViewController()
-            self.navigationController?.pushViewController(vc, animated: true)
-        default: break
-        }
+        self.viewModel.themeSelected(at: indexPath.row)
+        self.reloadThemes()
     }
 
 }

@@ -67,7 +67,7 @@ class PeopleDetailsViewModel {
     
     private func setupNotifications() {
         NotificationCenter.default
-            .publisher(for: .showFavoriteToggle)
+            .publisher(for: .showFavoriteToggled)
             .receive(on: DispatchQueue.main)
             .sink { [ weak self ] notification in
                 guard let id = notification.userInfo?["id"] as? Int else { return }

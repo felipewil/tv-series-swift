@@ -78,7 +78,7 @@ class ShowsManager {
     /// Adds the given show as favorite.
     func addToFavorites(_ show: Show) {
         defer {
-            NotificationCenter.default.post(name: .showFavoriteToggle,
+            NotificationCenter.default.post(name: .showFavoriteToggled,
                                             object: nil,
                                             userInfo: [ "id": show.id ])
         }
@@ -94,7 +94,7 @@ class ShowsManager {
     /// Removes the given show from favorites.
     func removeFromFavorites(_ show: Show) {
         defer {
-            NotificationCenter.default.post(name: .showFavoriteToggle,
+            NotificationCenter.default.post(name: .showFavoriteToggled,
                                             object: nil,
                                             userInfo: [ "id": show.id ])
         }

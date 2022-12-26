@@ -24,6 +24,9 @@
 		CD2E4A7A2959EEB900EE3341 /* PeopleDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2E4A792959EEB900EE3341 /* PeopleDetailsViewController.swift */; };
 		CD2E4A7C2959EEF000EE3341 /* PeopleDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2E4A7B2959EEF000EE3341 /* PeopleDetailsViewModel.swift */; };
 		CD2E4A7E2959EFEF00EE3341 /* CastCredit.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2E4A7D2959EFEF00EE3341 /* CastCredit.swift */; };
+		CD2E4A85295A2AAB00EE3341 /* ThemeSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2E4A84295A2AAB00EE3341 /* ThemeSettingsViewController.swift */; };
+		CD2E4A87295A2AC000EE3341 /* ThemeSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2E4A86295A2AC000EE3341 /* ThemeSettingsViewModel.swift */; };
+		CD2E4A89295A2B6300EE3341 /* ThemeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2E4A88295A2B6300EE3341 /* ThemeHelper.swift */; };
 		CD361F512956855A00D86A32 /* ShowsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD361F502956855A00D86A32 /* ShowsListViewModel.swift */; };
 		CD361F57295685E600D86A32 /* Endpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD361F56295685E600D86A32 /* Endpoints.swift */; };
 		CD361F592956885000D86A32 /* Show.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD361F582956885000D86A32 /* Show.swift */; };
@@ -104,6 +107,9 @@
 		CD2E4A792959EEB900EE3341 /* PeopleDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleDetailsViewController.swift; sourceTree = "<group>"; };
 		CD2E4A7B2959EEF000EE3341 /* PeopleDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleDetailsViewModel.swift; sourceTree = "<group>"; };
 		CD2E4A7D2959EFEF00EE3341 /* CastCredit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastCredit.swift; sourceTree = "<group>"; };
+		CD2E4A84295A2AAB00EE3341 /* ThemeSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeSettingsViewController.swift; sourceTree = "<group>"; };
+		CD2E4A86295A2AC000EE3341 /* ThemeSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeSettingsViewModel.swift; sourceTree = "<group>"; };
+		CD2E4A88295A2B6300EE3341 /* ThemeHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeHelper.swift; sourceTree = "<group>"; };
 		CD361F502956855A00D86A32 /* ShowsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowsListViewModel.swift; sourceTree = "<group>"; };
 		CD361F56295685E600D86A32 /* Endpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoints.swift; sourceTree = "<group>"; };
 		CD361F582956885000D86A32 /* Show.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Show.swift; sourceTree = "<group>"; };
@@ -195,6 +201,7 @@
 			children = (
 				CD163DE429565F0A0009C43F /* AppDelegate.swift */,
 				CD163DE629565F0A0009C43F /* SceneDelegate.swift */,
+				CD2E4A7F295A2A3B00EE3341 /* Theme */,
 				CD361F60295693BA00D86A32 /* Components */,
 				CD916B30295794C50098F752 /* EpisodeDetails */,
 				CD916B3E2957A4400098F752 /* FavoriteList */,
@@ -292,6 +299,31 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		CD2E4A7F295A2A3B00EE3341 /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				CD2E4A83295A2A9E00EE3341 /* Views */,
+				CD2E4A82295A2A9900EE3341 /* ViewModels */,
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
+		CD2E4A82295A2A9900EE3341 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				CD2E4A86295A2AC000EE3341 /* ThemeSettingsViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		CD2E4A83295A2A9E00EE3341 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CD2E4A84295A2AAB00EE3341 /* ThemeSettingsViewController.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		CD361F522956859600D86A32 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -302,6 +334,7 @@
 				CD916B5E2958FA5D0098F752 /* KeychainHelper.swift */,
 				CD916B64295914E80098F752 /* PinHelper.swift */,
 				CD916B432957A5430098F752 /* ShowsManager.swift */,
+				CD2E4A88295A2B6300EE3341 /* ThemeHelper.swift */,
 				CD361F5E29568C6A00D86A32 /* UIImageView+Extensions.swift */,
 				CDCC098C2957421D001CDA4D /* UIColor+Extensions.swift */,
 			);
@@ -631,9 +664,11 @@
 				CD916B4B2958EE650098F752 /* SettingsViewController.swift in Sources */,
 				CD2E4A6F2959E22900EE3341 /* PeopleListViewController.swift in Sources */,
 				CD916B2F295789D10098F752 /* Image.swift in Sources */,
+				CD2E4A85295A2AAB00EE3341 /* ThemeSettingsViewController.swift in Sources */,
 				CDCC099329576237001CDA4D /* Episode.swift in Sources */,
 				CD916B2D295775B40098F752 /* EpisodeCellViewModel.swift in Sources */,
 				CD361F592956885000D86A32 /* Show.swift in Sources */,
+				CD2E4A89295A2B6300EE3341 /* ThemeHelper.swift in Sources */,
 				CD2E4A6D2959E08A00EE3341 /* PeopleListViewModel.swift in Sources */,
 				CD2E4A752959E46600EE3341 /* Collection+Extensions.swift in Sources */,
 				CD916B2B295775510098F752 /* EpisodeCell.swift in Sources */,
@@ -673,6 +708,7 @@
 				CDCC0995295768B2001CDA4D /* SeasonsCell.swift in Sources */,
 				CD916B5F2958FA5D0098F752 /* KeychainHelper.swift in Sources */,
 				CD361F5D29568B9300D86A32 /* ShowCellViewModel.swift in Sources */,
+				CD2E4A87295A2AC000EE3341 /* ThemeSettingsViewModel.swift in Sources */,
 				CDCC098929573B11001CDA4D /* Schedule.swift in Sources */,
 				CDCC09872957383A001CDA4D /* ShowDetailsViewModel.swift in Sources */,
 				CD2E4A662959DFD700EE3341 /* People.swift in Sources */,

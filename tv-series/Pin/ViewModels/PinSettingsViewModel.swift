@@ -15,10 +15,6 @@ enum PinSettingsEvent {
 }
 
 struct PinSettingsViewModel {
-    
-    private struct Consts {
-        static let pinEnabledKey = "pinEnabled"
-    }
 
     enum Options: Int, CaseIterable {
         case pin

@@ -18,10 +18,6 @@ class PinSettingsViewController: UIViewController {
     private enum Section: Int {
         case list
     }
-    
-    private enum Identifiers: Int {
-        case empty = -1
-    }
 
     // MARK: Properties
 
@@ -108,12 +104,12 @@ class PinSettingsViewController: UIViewController {
         self.dataSource?.apply(snapshot, animatingDifferences: false)
     }
     
-    private func reloadSettings() {
+    private func reloadSettings(animated: Bool = true) {
         guard var snapshot = self.dataSource?.snapshot() else { return }
 
-        snapshot.reconfigureItems(self.viewModel.options.map { $0.rawValue })
+        snapshot.reloadItems(self.viewModel.options.map { $0.rawValue })
 
-        self.dataSource?.apply(snapshot)
+        self.dataSource?.apply(snapshot, animatingDifferences: animated)
     }
     
     private func preparePinCell(_ cell: UITableViewCell) {
@@ -154,7 +150,7 @@ class PinSettingsViewController: UIViewController {
                     self.viewModel.confirmPinEnabled()
                 }
                 
-                self.reloadSettings()
+                self.reloadSettings(animated: false)
             }
             
             self.present(vc, animated: true)
@@ -170,7 +166,7 @@ class PinSettingsViewController: UIViewController {
             
             context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics,
                                    localizedReason: reason) { [ weak self ] unlocked, error in
-                defer { self?.reloadSettings() }
+                defer { self?.reloadSettings(animated: false) }
                 guard unlocked, error == nil else { return }
                 self?.viewModel.confirmFingerprintEnabled()
             }

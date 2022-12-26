@@ -9,6 +9,7 @@ import Foundation
 
 extension Notification.Name {
 
-    static let showFavoriteToggle = Notification.Name("showFavoriteToggle")
+    static let showFavoriteToggled = Notification.Name("showFavoriteToggled")
+    static let themeUpdated = Notification.Name("themeUpdated")
 
 }

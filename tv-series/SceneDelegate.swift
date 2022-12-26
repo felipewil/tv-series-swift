@@ -6,10 +6,12 @@
 //
 
 import UIKit
+import Combine
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    private var cancellables: Set<AnyCancellable> = []
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -22,6 +24,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.makeKeyAndVisible()
         
         self.window = window
+        self.setupNotifications()
+        self.updateTheme()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -52,6 +56,25 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
     }
 
+    // MARK: Helpers
+
+    private func setupNotifications() {
+        NotificationCenter.default
+            .publisher(for: .themeUpdated)
+            .sink { [ weak self ] _ in self?.updateTheme() }
+            .store(in: &self.cancellables)
+    }
+
+    private func updateTheme() {
+        let theme = ThemeHelper().currentTheme()
+        
+        switch theme {
+        case .system: self.window?.overrideUserInterfaceStyle = .unspecified
+        case .dark: self.window?.overrideUserInterfaceStyle = .dark
+        case .light: self.window?.overrideUserInterfaceStyle = .light
+        }
+        
+    }
 
 }
 
