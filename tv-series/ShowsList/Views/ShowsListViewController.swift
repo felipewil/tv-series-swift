@@ -30,6 +30,7 @@ class ShowsListViewController: UIViewController {
     private var viewModel: ShowsListViewModel!
     private var dataSource: UITableViewDiffableDataSource<Section, Show.ID>?
     private var cancellables: Set<AnyCancellable> = []
+    private var searchCancellable: AnyCancellable?
 
     // MARK: Subviews
     
@@ -213,9 +214,16 @@ extension ShowsListViewController: UISearchControllerDelegate, UISearchResultsUp
 
     func updateSearchResults(for searchController: UISearchController) {
         if searchController.isActive {
-            let search = searchController.searchBar.text
-            self.viewModel.searchShows(for: search)
+            self.viewModel.searchStarted()
+            self.searchCancellable = NotificationCenter.default
+                .publisher(for: UISearchTextField.textDidChangeNotification, object: self.searchController.searchBar.searchTextField)
+                .compactMap { ($0.object as? UISearchTextField)?.text }
+                .debounce(for: 0.3, scheduler: DispatchQueue.main)
+                .sink { [ weak self ] query in
+                    self?.viewModel.searchShows(for: query)
+                }
         } else {
+            self.searchCancellable = nil
             self.viewModel.searchCancelled()
         }
     }

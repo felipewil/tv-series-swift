@@ -82,7 +82,7 @@ class ShowDetailsViewController: UIViewController {
         self.viewModel.eventPublisher
             .receive(on: DispatchQueue.main)
             .sink{ [ weak self ] event in self?.handleEvent(event) }
-            .store(in: &cancellables)
+            .store(in: &self.cancellables)
 
         self.loadDetails()
         

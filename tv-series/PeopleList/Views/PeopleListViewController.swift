@@ -30,6 +30,7 @@ class PeopleListViewController: UIViewController {
     private let viewModel = PeopleListViewModel()
     private var dataSource: UITableViewDiffableDataSource<Section, People.ID>?
     private var cancellables: Set<AnyCancellable> = []
+    private var searchCancellable: AnyCancellable?
 
     // MARK: Subviews
     
@@ -46,7 +47,6 @@ class PeopleListViewController: UIViewController {
         tableView.delegate = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
-        tableView.register(LoadingCell.self, forCellReuseIdentifier: LoadingCell.reuseIdentifier)
         tableView.register(PeopleCell.self, forCellReuseIdentifier: PeopleCell.reuseIdentifier)
 
         return tableView
@@ -151,9 +151,15 @@ extension PeopleListViewController: UISearchControllerDelegate, UISearchResultsU
 
     func updateSearchResults(for searchController: UISearchController) {
         if searchController.isActive {
-            let search = searchController.searchBar.text
-            self.viewModel.search(for: search)
+            self.searchCancellable = NotificationCenter.default
+                .publisher(for: UISearchTextField.textDidChangeNotification, object: self.searchController.searchBar.searchTextField)
+                .compactMap { ($0.object as? UISearchTextField)?.text }
+                .debounce(for: 0.3, scheduler: DispatchQueue.main)
+                .sink { [ weak self ] query in
+                    self?.viewModel.search(for: query)
+                }
         } else {
+            self.searchCancellable = nil
             self.viewModel.search(for: "")
         }
     }

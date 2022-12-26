@@ -92,6 +92,13 @@ class ShowsListViewModel {
             .store(in: &self.cancellables)
     }
 
+    /// User started to search.
+    func searchStarted() {
+        guard self.mode == .list else { return }
+        self.mode = .search
+        self.eventSubject.send(.showsSearched)
+    }
+    
     /// Search was cancelled, should exit search mode.
     func searchCancelled() {
         self.mode = .list
