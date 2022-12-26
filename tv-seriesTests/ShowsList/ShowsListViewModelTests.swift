@@ -10,7 +10,7 @@ import Combine
 import XCTest
 @testable import tv_series
 
-class ShowsManagerMock: ShowsManager {
+private class ShowsManagerMock: ShowsManager {
 
     var loadNextPageCalls = 0
     var loadNextPageCompletion: (() -> Void)?

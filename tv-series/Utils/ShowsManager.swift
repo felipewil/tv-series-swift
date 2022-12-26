@@ -142,6 +142,15 @@ class ShowsManager {
             .catch { _ in Empty<[ SearchResult ], Never>() }
             .eraseToAnyPublisher()
     }
+
+#if DEBUG
+    /// Clears favorite file, for test purposes.
+    func clearFavorites() {
+
+        try? self.fileManager.removeItem(at: self.favoritesFilePath())
+    }
+#endif
+    
     
     // MARK: Helpers
 

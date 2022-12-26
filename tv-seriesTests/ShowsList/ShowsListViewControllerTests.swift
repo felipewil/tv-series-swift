@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Combine
 import XCTest
 @testable import tv_series
 
@@ -80,12 +79,10 @@ class ShowsListViewControllerTests: XCTestCase {
 
     private var viewModelMock: ShowsListViewModelMock!
     private var vc: ShowsListViewController!
-    private var cancellables: Set<AnyCancellable> = []
 
     override func setUp() {
         super.setUp()
-        
-        self.cancellables = []
+
         self.viewModelMock = ShowsListViewModelMock()
         self.vc = ShowsListViewController(viewModel: self.viewModelMock)
         self.vc.loadView()
@@ -93,8 +90,7 @@ class ShowsListViewControllerTests: XCTestCase {
     
     override func tearDown() {
         super.tearDown()
-        
-        self.cancellables = []
+
         self.viewModelMock = nil
         self.vc = nil
     }
