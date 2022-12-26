@@ -15,6 +15,15 @@
 		CD163DFC29565F0B0009C43F /* tv_seriesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD163DFB29565F0B0009C43F /* tv_seriesTests.swift */; };
 		CD163E0629565F0B0009C43F /* tv_seriesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD163E0529565F0B0009C43F /* tv_seriesUITests.swift */; };
 		CD163E0829565F0B0009C43F /* tv_seriesUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD163E0729565F0B0009C43F /* tv_seriesUITestsLaunchTests.swift */; };
+		CD2E4A662959DFD700EE3341 /* People.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2E4A652959DFD700EE3341 /* People.swift */; };
+		CD2E4A6D2959E08A00EE3341 /* PeopleListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2E4A6C2959E08A00EE3341 /* PeopleListViewModel.swift */; };
+		CD2E4A6F2959E22900EE3341 /* PeopleListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2E4A6E2959E22900EE3341 /* PeopleListViewController.swift */; };
+		CD2E4A712959E33D00EE3341 /* PeopleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2E4A702959E33D00EE3341 /* PeopleCell.swift */; };
+		CD2E4A732959E35D00EE3341 /* PeopleCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2E4A722959E35D00EE3341 /* PeopleCellViewModel.swift */; };
+		CD2E4A752959E46600EE3341 /* Collection+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2E4A742959E46600EE3341 /* Collection+Extensions.swift */; };
+		CD2E4A7A2959EEB900EE3341 /* PeopleDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2E4A792959EEB900EE3341 /* PeopleDetailsViewController.swift */; };
+		CD2E4A7C2959EEF000EE3341 /* PeopleDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2E4A7B2959EEF000EE3341 /* PeopleDetailsViewModel.swift */; };
+		CD2E4A7E2959EFEF00EE3341 /* CastCredit.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2E4A7D2959EFEF00EE3341 /* CastCredit.swift */; };
 		CD361F512956855A00D86A32 /* ShowsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD361F502956855A00D86A32 /* ShowsListViewModel.swift */; };
 		CD361F57295685E600D86A32 /* Endpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD361F56295685E600D86A32 /* Endpoints.swift */; };
 		CD361F592956885000D86A32 /* Show.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD361F582956885000D86A32 /* Show.swift */; };
@@ -86,6 +95,15 @@
 		CD163E0129565F0B0009C43F /* tv-seriesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "tv-seriesUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD163E0529565F0B0009C43F /* tv_seriesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tv_seriesUITests.swift; sourceTree = "<group>"; };
 		CD163E0729565F0B0009C43F /* tv_seriesUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tv_seriesUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		CD2E4A652959DFD700EE3341 /* People.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = People.swift; sourceTree = "<group>"; };
+		CD2E4A6C2959E08A00EE3341 /* PeopleListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleListViewModel.swift; sourceTree = "<group>"; };
+		CD2E4A6E2959E22900EE3341 /* PeopleListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleListViewController.swift; sourceTree = "<group>"; };
+		CD2E4A702959E33D00EE3341 /* PeopleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleCell.swift; sourceTree = "<group>"; };
+		CD2E4A722959E35D00EE3341 /* PeopleCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleCellViewModel.swift; sourceTree = "<group>"; };
+		CD2E4A742959E46600EE3341 /* Collection+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Extensions.swift"; sourceTree = "<group>"; };
+		CD2E4A792959EEB900EE3341 /* PeopleDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleDetailsViewController.swift; sourceTree = "<group>"; };
+		CD2E4A7B2959EEF000EE3341 /* PeopleDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleDetailsViewModel.swift; sourceTree = "<group>"; };
+		CD2E4A7D2959EFEF00EE3341 /* CastCredit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastCredit.swift; sourceTree = "<group>"; };
 		CD361F502956855A00D86A32 /* ShowsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowsListViewModel.swift; sourceTree = "<group>"; };
 		CD361F56295685E600D86A32 /* Endpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoints.swift; sourceTree = "<group>"; };
 		CD361F582956885000D86A32 /* Show.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Show.swift; sourceTree = "<group>"; };
@@ -177,12 +195,14 @@
 			children = (
 				CD163DE429565F0A0009C43F /* AppDelegate.swift */,
 				CD163DE629565F0A0009C43F /* SceneDelegate.swift */,
-				CD916B502958F2CE0098F752 /* Pin */,
-				CD916B472958EE3F0098F752 /* Settings */,
 				CD361F60295693BA00D86A32 /* Components */,
 				CD916B30295794C50098F752 /* EpisodeDetails */,
 				CD916B3E2957A4400098F752 /* FavoriteList */,
 				CD361F53295685A800D86A32 /* Models */,
+				CD2E4A692959E06600EE3341 /* PeopleList */,
+				CD2E4A762959EE8100EE3341 /* PeopleDetails */,
+				CD916B502958F2CE0098F752 /* Pin */,
+				CD916B472958EE3F0098F752 /* Settings */,
 				CD361F652957375800D86A32 /* ShowDetails */,
 				CD163E1429565F110009C43F /* ShowsList */,
 				CD916B392957A2380098F752 /* Tabs */,
@@ -220,9 +240,62 @@
 			path = ShowsList;
 			sourceTree = "<group>";
 		};
+		CD2E4A692959E06600EE3341 /* PeopleList */ = {
+			isa = PBXGroup;
+			children = (
+				CD2E4A6B2959E07400EE3341 /* Views */,
+				CD2E4A6A2959E06F00EE3341 /* ViewModels */,
+			);
+			path = PeopleList;
+			sourceTree = "<group>";
+		};
+		CD2E4A6A2959E06F00EE3341 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				CD2E4A6C2959E08A00EE3341 /* PeopleListViewModel.swift */,
+				CD2E4A722959E35D00EE3341 /* PeopleCellViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		CD2E4A6B2959E07400EE3341 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CD2E4A6E2959E22900EE3341 /* PeopleListViewController.swift */,
+				CD2E4A702959E33D00EE3341 /* PeopleCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		CD2E4A762959EE8100EE3341 /* PeopleDetails */ = {
+			isa = PBXGroup;
+			children = (
+				CD2E4A782959EE9E00EE3341 /* Views */,
+				CD2E4A772959EE9900EE3341 /* ViewModels */,
+			);
+			path = PeopleDetails;
+			sourceTree = "<group>";
+		};
+		CD2E4A772959EE9900EE3341 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				CD2E4A7B2959EEF000EE3341 /* PeopleDetailsViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		CD2E4A782959EE9E00EE3341 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CD2E4A792959EEB900EE3341 /* PeopleDetailsViewController.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		CD361F522956859600D86A32 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				CD2E4A742959E46600EE3341 /* Collection+Extensions.swift */,
 				CD361F56295685E600D86A32 /* Endpoints.swift */,
 				CD916B452958E9EF0098F752 /* Notifications.swift */,
 				CD916B37295798B80098F752 /* NSAttributedString+Extensions.swift */,
@@ -238,8 +311,10 @@
 		CD361F53295685A800D86A32 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				CD2E4A7D2959EFEF00EE3341 /* CastCredit.swift */,
 				CDCC099229576237001CDA4D /* Episode.swift */,
 				CD916B2E295789D10098F752 /* Image.swift */,
+				CD2E4A652959DFD700EE3341 /* People.swift */,
 				CDCC098829573B11001CDA4D /* Schedule.swift */,
 				CD361F632957251900D86A32 /* SearchResult.swift */,
 				CD361F582956885000D86A32 /* Show.swift */,
@@ -554,10 +629,13 @@
 				CD361F642957251900D86A32 /* SearchResult.swift in Sources */,
 				CD916B442957A5430098F752 /* ShowsManager.swift in Sources */,
 				CD916B4B2958EE650098F752 /* SettingsViewController.swift in Sources */,
+				CD2E4A6F2959E22900EE3341 /* PeopleListViewController.swift in Sources */,
 				CD916B2F295789D10098F752 /* Image.swift in Sources */,
 				CDCC099329576237001CDA4D /* Episode.swift in Sources */,
 				CD916B2D295775B40098F752 /* EpisodeCellViewModel.swift in Sources */,
 				CD361F592956885000D86A32 /* Show.swift in Sources */,
+				CD2E4A6D2959E08A00EE3341 /* PeopleListViewModel.swift in Sources */,
+				CD2E4A752959E46600EE3341 /* Collection+Extensions.swift in Sources */,
 				CD916B2B295775510098F752 /* EpisodeCell.swift in Sources */,
 				CD916B63295914940098F752 /* TabsViewModel.swift in Sources */,
 				CD916B562958F3F30098F752 /* PinViewModel.swift in Sources */,
@@ -570,6 +648,7 @@
 				CDCC098B29573BE0001CDA4D /* ChipView.swift in Sources */,
 				CD163DE929565F0A0009C43F /* ShowsListViewController.swift in Sources */,
 				CD916B5D2958F7310098F752 /* PinSettingsViewModel.swift in Sources */,
+				CD2E4A732959E35D00EE3341 /* PeopleCellViewModel.swift in Sources */,
 				CD916B38295798B80098F752 /* NSAttributedString+Extensions.swift in Sources */,
 				CD916B422957A4890098F752 /* FavoriteListViewModel.swift in Sources */,
 				CD916B3D2957A43D0098F752 /* FavoriteListViewController.swift in Sources */,
@@ -578,6 +657,10 @@
 				CDCC0985295737D3001CDA4D /* ShowDetailsViewController.swift in Sources */,
 				CD361F5F29568C6A00D86A32 /* UIImageView+Extensions.swift in Sources */,
 				CD916B33295794DD0098F752 /* EpisodeDetailsViewController.swift in Sources */,
+				CD2E4A7C2959EEF000EE3341 /* PeopleDetailsViewModel.swift in Sources */,
+				CD2E4A712959E33D00EE3341 /* PeopleCell.swift in Sources */,
+				CD2E4A7E2959EFEF00EE3341 /* CastCredit.swift in Sources */,
+				CD2E4A7A2959EEB900EE3341 /* PeopleDetailsViewController.swift in Sources */,
 				CD361F62295693CD00D86A32 /* LoadingCell.swift in Sources */,
 				CD916B522958F2E10098F752 /* PinViewController.swift in Sources */,
 				CD361F5B29568B5700D86A32 /* ShowCell.swift in Sources */,
@@ -592,6 +675,7 @@
 				CD361F5D29568B9300D86A32 /* ShowCellViewModel.swift in Sources */,
 				CDCC098929573B11001CDA4D /* Schedule.swift in Sources */,
 				CDCC09872957383A001CDA4D /* ShowDetailsViewModel.swift in Sources */,
+				CD2E4A662959DFD700EE3341 /* People.swift in Sources */,
 				CDCC099729576D20001CDA4D /* ChipButtonView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

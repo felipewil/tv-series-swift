@@ -156,7 +156,7 @@ class ShowsListViewController: UIViewController {
             var snapshot = NSDiffableDataSourceSnapshot<Section, Show.ID>()
 
             snapshot.appendSections([ .list, .search ])
-            snapshot.appendItems(self.viewModel.searchResults.map { $0.id }, toSection: .search)
+            snapshot.appendItems(self.viewModel.searchResults.ids(), toSection: .search)
             
             if self.viewModel.searchResults.count == 0 {
                 snapshot.appendItems([ Identifiers.emptySearch.rawValue ], toSection: .search)
@@ -164,11 +164,13 @@ class ShowsListViewController: UIViewController {
 
             self.dataSource?.apply(snapshot)
         case .reloadShow(let id):
-            guard var snapshot = self.dataSource?.snapshot() else { return }
+            guard
+                var snapshot = self.dataSource?.snapshot(),
+                snapshot.indexOfItem(id) != nil else { return }
 
-            snapshot.reloadItems([ id ])
+            snapshot.reconfigureItems([ id ])
             
-            self.dataSource?.apply(snapshot)
+            self.dataSource?.apply(snapshot, animatingDifferences: false)
         }
     }
     
@@ -185,15 +187,6 @@ class ShowsListViewController: UIViewController {
         snapshot.appendSections([ .list ])
         snapshot.appendItems(self.viewModel.showsIDs())
         snapshot.appendItems([ Identifiers.loadingMore.rawValue ])
-
-        self.dataSource?.apply(snapshot)
-    }
-    
-    private func showSearching(_ show: Bool) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Show.ID>()
-
-        snapshot.appendSections([ .list, .search ])
-        snapshot.appendItems([ Identifiers.loadingSearch.rawValue ], toSection: .search)
 
         self.dataSource?.apply(snapshot)
     }

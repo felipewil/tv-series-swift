@@ -52,7 +52,7 @@ class FavoriteListViewModel {
     
     /// Returns array of all show's IDs.
     func showsIDs() -> [ Show.ID ] {
-        return self.filteredShows().map { $0.id }
+        return self.filteredShows().ids()
     }
     
     /// Returns the show at the given index.

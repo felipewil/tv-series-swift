@@ -59,7 +59,7 @@ class ShowsListViewModel {
     
     /// Returns array of all show's IDs.
     func showsIDs() -> [ Show.ID ] {
-        return self.showsManager.shows.map { $0.id }
+        return self.showsManager.shows.ids()
     }
     
     /// Returns the show at the given index.
@@ -130,6 +130,7 @@ class ShowsListViewModel {
             .receive(on: DispatchQueue.main)
             .sink { [ weak self ] notification in
                 guard let id = notification.userInfo?["id"] as? Int else { return }
+                
                 self?.eventSubject.send(.reloadShow(id: id))
             }
             .store(in: &self.cancellables)

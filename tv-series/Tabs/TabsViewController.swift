@@ -9,6 +9,10 @@ import UIKit
 import Combine
 
 class TabsViewController: UITabBarController {
+    
+    private struct Consts {
+        static let tintColor = UIColor(hex: "#242424")
+    }
 
     // MARK: Properties
     
@@ -19,32 +23,16 @@ class TabsViewController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let listTab = UITabBarItem(title: "Shows",
-                                   image: UIImage(systemName: "tv"),
-                                   selectedImage: UIImage(systemName: "tv.fill"))
-        let listVC = ShowsListViewController()
-        let navVC = UINavigationController(rootViewController: listVC)
-        navVC.tabBarItem = listTab
-        
-        let favoriteTab = UITabBarItem(title: "Favorites",
-                                   image: UIImage(systemName: "heart"),
-                                   selectedImage: UIImage(systemName: "heart.fill"))
-        let favoriteVC = FavoriteListViewController()
-        let favoriteNavVC = UINavigationController(rootViewController: favoriteVC)
-        favoriteNavVC.tabBarItem = favoriteTab
-        
-        let settingsTab = UITabBarItem(title: "Settings",
-                                   image: UIImage(systemName: "gearshape"),
-                                   selectedImage: UIImage(systemName: "gearshape.fill"))
-        let settingsVC = SettingsViewController()
-        let settingsNavVC = UINavigationController(rootViewController: settingsVC)
-        settingsNavVC.tabBarItem = settingsTab
 
         self.tabBar.backgroundColor = .systemGroupedBackground
         self.tabBar.isTranslucent = false
-        self.tabBar.tintColor = UIColor(hex: "#242424")
-        self.viewControllers = [ navVC, favoriteNavVC, settingsNavVC ]
+        self.tabBar.tintColor = Consts.tintColor
+        self.viewControllers = [
+            showsViewController(),
+            favoritesViewController(),
+            peopleViewController(),
+            settingsViewController(),
+        ]
         
         self.viewModel.$isLocked
             .dropFirst()
@@ -61,7 +49,51 @@ class TabsViewController: UITabBarController {
     }
 
     // MARK: Helpers
+
+    private func showsViewController() -> UIViewController {
+        let tab = UITabBarItem(title: "Shows",
+                                   image: UIImage(systemName: "tv"),
+                                   selectedImage: UIImage(systemName: "tv.fill"))
+        let vc = ShowsListViewController()
+        let navVC = UINavigationController(rootViewController: vc)
+        navVC.tabBarItem = tab
+        
+        return navVC
+    }
     
+    private func favoritesViewController() -> UIViewController {
+        let tab = UITabBarItem(title: "Favorites",
+                                   image: UIImage(systemName: "heart"),
+                                   selectedImage: UIImage(systemName: "heart.fill"))
+        let vc = FavoriteListViewController()
+        let navVC = UINavigationController(rootViewController: vc)
+        navVC.tabBarItem = tab
+        
+        return navVC
+    }
+    
+    private func peopleViewController() -> UIViewController {
+        let tab = UITabBarItem(title: "People",
+                                   image: UIImage(systemName: "person"),
+                                   selectedImage: UIImage(systemName: "person.fill"))
+        let vc = PeopleListViewController()
+        let navVC = UINavigationController(rootViewController: vc)
+        navVC.tabBarItem = tab
+        
+        return navVC
+    }
+
+    private func settingsViewController() -> UIViewController {
+        let tab = UITabBarItem(title: "Settings",
+                                   image: UIImage(systemName: "gearshape"),
+                                   selectedImage: UIImage(systemName: "gearshape.fill"))
+        let vc = SettingsViewController()
+        let navVC = UINavigationController(rootViewController: vc)
+        navVC.tabBarItem = tab
+        
+        return navVC
+    }
+
     private func showLock() {
         self.viewModel.lock(viewControlelr: self)
     }

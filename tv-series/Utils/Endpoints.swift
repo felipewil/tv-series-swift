@@ -33,4 +33,26 @@ enum Endpoint {
         }
     }
 
+    enum People {
+        case index(page: Int)
+        case people(id: Int)
+        case search(query: String)
+        case castcredits(id: Int)
+        
+        var url: URL? {
+            switch self {
+            case .index(let page):
+                let queryItem = URLQueryItem(name: "page", value: "\(page)")
+                return baseUrl?.appending(component: "people").appending(queryItems: [ queryItem ])
+            case .people(let id):
+                return baseUrl?.appending(component: "people/\(id)")
+            case .search(let query):
+                let queryItem = URLQueryItem(name: "q", value: query)
+                return baseUrl?.appending(component: "search/people").appending(queryItems: [ queryItem ])
+            case .castcredits(let id):
+                let queryItem = URLQueryItem(name: "embed", value: "show")
+                return baseUrl?.appending(component: "people/\(id)/castcredits").appending(queryItems: [ queryItem ])
+            }
+        }
+    }
 }

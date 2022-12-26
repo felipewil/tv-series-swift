@@ -138,7 +138,7 @@ class ShowDetailsViewController: UIViewController {
             snapshot.appendItems([ Identifier.seasons.rawValue ], toSection: .season)
 
             if let eps = self.viewModel.episodesBySeason[self.viewModel.selectedSeason] {
-                snapshot.appendItems(eps.map { $0.id }, toSection: .episodes)
+                snapshot.appendItems(eps.ids(), toSection: .episodes)
             }
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
