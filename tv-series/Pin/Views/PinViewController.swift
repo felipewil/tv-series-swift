@@ -15,17 +15,12 @@ class PinViewController: UIViewController {
         static let closeButtonSize: CGFloat = 44.0
     }
 
-    enum PinStatus {
-        case locked
-        case unlocked
-    }
-
     // MARK: Properties
     
     private let viewModel: PinViewModel!
     private let feedbackGenerator = UIImpactFeedbackGenerator(style: .heavy)
     
-    var onClose: ((PinStatus) -> Void)?
+    var onClose: ((PinLockStatus) -> Void)?
     var tries = 0
     
     // MARK: Subviews

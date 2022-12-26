@@ -11,6 +11,7 @@ import Combine
 
 enum PinSettingsEvent {
     case setupPin
+    case setupFingerprint
 }
 
 struct PinSettingsViewModel {
@@ -75,6 +76,25 @@ struct PinSettingsViewModel {
     /// Confirms PIN is enabled.
     func confirmPinEnabled() {
         self.pinHelper.setPinEnabled(true)
+    }
+    
+    /// Whether fingerprint authentication is enabled in the app.
+    func isFingerprintEnabled() -> Bool {
+        return self.pinHelper.isFingerprintEnabled()
+    }
+    
+    /// Sets fingerprint authentication enabled status..
+    func fingerprintEnabled(_ isEnabled: Bool) {
+        if isEnabled {
+            self.eventSubject.send(.setupFingerprint)
+        } else {
+            self.pinHelper.setFingerprintEnabled(isEnabled)
+        }
+    }
+    
+    /// Confirms fingerprint authentication is enabled.
+    func confirmFingerprintEnabled() {
+        self.pinHelper.setFingerprintEnabled(true)
     }
     
     // MARK: Helpers

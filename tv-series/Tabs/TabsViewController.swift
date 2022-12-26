@@ -59,20 +59,11 @@ class TabsViewController: UITabBarController {
         super.viewDidAppear(animated)
         self.viewModel.checkIsLocked()
     }
-    
+
     // MARK: Helpers
     
     private func showLock() {
-        let viewModel = PinViewModel(isSetup: false)
-        let vc = PinViewController(viewModel: viewModel)
-        vc.modalPresentationStyle = .fullScreen
-        
-        vc.onClose = { [ weak self ] status in
-            guard status == .unlocked else { return }
-            self?.viewModel.unlocked()
-        }
-        
-        self.present(vc, animated: true)
+        self.viewModel.lock(viewControlelr: self)
     }
 
 }

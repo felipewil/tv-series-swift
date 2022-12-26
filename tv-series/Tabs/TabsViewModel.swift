@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 class TabsViewModel {
 
@@ -32,6 +33,13 @@ class TabsViewModel {
     /// Lock was unlocked.
     func unlocked() {
         self.isLocked = false
+    }
+    
+    /// Locks the `UIViewController` behind a PIN.
+    func lock(viewControlelr: UIViewController) {
+        self.pinHelper.lock(viewController: viewControlelr) { [ weak self ] status in
+            self?.isLocked = status != .unlocked
+        }
     }
 
 }

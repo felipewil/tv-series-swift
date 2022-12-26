@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import LocalAuthentication
 
 class PinSettingsViewController: UIViewController {
 
@@ -66,7 +67,7 @@ class PinSettingsViewController: UIViewController {
     
     private func setup() {
         self.view.addSubview(self.tableView)
-        
+
         NSLayoutConstraint.activate([
             self.tableView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
             self.tableView.topAnchor.constraint(equalTo: self.view.topAnchor),
@@ -88,6 +89,7 @@ class PinSettingsViewController: UIViewController {
             if settings == .pin {
                 self.preparePinCell(cell)
             } else if settings == .fingerprint {
+                self.prepareFingerprintCell(cell, isPinEnabled: self.viewModel.isPinEnabled())
                 config.textProperties.color = self.viewModel.isPinEnabled() ? UIColor.label : UIColor.systemGray
             }
             
@@ -121,9 +123,23 @@ class PinSettingsViewController: UIViewController {
         
         cell.accessoryView = switchView
     }
+    
+    private func prepareFingerprintCell(_ cell: UITableViewCell, isPinEnabled: Bool) {
+        let switchView = UISwitch(frame: .zero)
+        switchView.addTarget(self, action: #selector(self.fingerprintEnabled), for: .valueChanged)
+        switchView.isOn = self.viewModel.isFingerprintEnabled()
+        switchView.isEnabled = isPinEnabled
+        
+        cell.accessoryView = switchView
+    }
 
     @objc private func pinEnabled(_ sender: UISwitch) {
         self.viewModel.pinEnabled(sender.isOn)
+        self.reloadSettings()
+    }
+    
+    @objc private func fingerprintEnabled(_ sender: UISwitch) {
+        self.viewModel.fingerprintEnabled(sender.isOn)
         self.reloadSettings()
     }
     
@@ -142,6 +158,22 @@ class PinSettingsViewController: UIViewController {
             }
             
             self.present(vc, animated: true)
+        case .setupFingerprint:
+            let context = LAContext()
+            let reason: String
+            
+            if #available(iOS 11, *), context.biometryType == .faceID {
+                reason = "Validate your Face ID"
+            } else {
+                reason = "Validate your Touch ID"
+            }
+            
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics,
+                                   localizedReason: reason) { [ weak self ] unlocked, error in
+                defer { self?.reloadSettings() }
+                guard unlocked, error == nil else { return }
+                self?.viewModel.confirmFingerprintEnabled()
+            }
         }
     }
 
