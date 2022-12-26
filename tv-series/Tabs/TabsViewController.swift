@@ -9,10 +9,6 @@ import UIKit
 import Combine
 
 class TabsViewController: UITabBarController {
-    
-    private struct Consts {
-        static let tintColor = UIColor(hex: "#242424")
-    }
 
     // MARK: Properties
     
@@ -26,7 +22,7 @@ class TabsViewController: UITabBarController {
 
         self.tabBar.backgroundColor = .systemGroupedBackground
         self.tabBar.isTranslucent = false
-        self.tabBar.tintColor = Consts.tintColor
+        self.tabBar.tintColor = .label
         self.viewControllers = [
             showsViewController(),
             favoritesViewController(),

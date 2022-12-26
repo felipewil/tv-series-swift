@@ -94,7 +94,7 @@ class ShowDetailsViewController: UIViewController {
     // MARK: Helpers
     
     private func setup() {
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = .systemBackground
         self.view.addSubview(self.tableView)
         
         NSLayoutConstraint.activate([

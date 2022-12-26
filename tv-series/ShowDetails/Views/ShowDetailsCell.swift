@@ -125,7 +125,17 @@ class ShowDetailsCell: UITableViewCell {
     override func prepareForReuse() {
         self.cancellables = []
     }
-    
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        guard self.traitCollection.userInterfaceStyle != previousTraitCollection?.userInterfaceStyle else { return }
+        
+        DispatchQueue.main.async {
+            self.setupSummary()
+        }
+    }
+
     // MARK: Helpers
     
     private func setup() {
@@ -212,7 +222,7 @@ class ShowDetailsCell: UITableViewCell {
         self.daysStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         
         let imageView = UIImageView(image: UIImage(systemName: "calendar"))
-        imageView.tintColor = .black
+        imageView.tintColor = .label
         
         NSLayoutConstraint.activate([
             imageView.heightAnchor.constraint(equalToConstant: 24.0),
@@ -240,7 +250,7 @@ class ShowDetailsCell: UITableViewCell {
         self.timeStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
 
         let imageView = UIImageView(image: UIImage(systemName: "clock"))
-        imageView.tintColor = .black
+        imageView.tintColor = .label
         
         NSLayoutConstraint.activate([
             imageView.heightAnchor.constraint(equalToConstant: 24.0),
@@ -273,7 +283,9 @@ class ShowDetailsCell: UITableViewCell {
     }
     
     private func setupSummary() {
-        self.summaryContentLabel.attributedText = .templatedHtml(self.viewModel.summary ?? "<em>No summary</em>")
+        let darkMode = self.traitCollection.userInterfaceStyle == .dark
+        self.summaryContentLabel.attributedText = .templatedHtml(self.viewModel.summary ?? "<em>No summary</em>",
+                                                                 darkMode: darkMode)
     }
 
 }

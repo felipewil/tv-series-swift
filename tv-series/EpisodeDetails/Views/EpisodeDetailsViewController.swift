@@ -105,11 +105,23 @@ class EpisodeDetailsViewController: UIViewController {
         self.viewModel = nil
         super.init(coder: coder)
     }
+
+    // MARK: Public methods
     
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        guard self.traitCollection.userInterfaceStyle != previousTraitCollection?.userInterfaceStyle else { return }
+        
+        DispatchQueue.main.async {
+            self.setupSummary()
+        }
+    }
+
     // MARK: Helpers
     
     private func setup() {
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = .systemBackground
         self.view.addSubview(self.scrollView)
         
         self.scrollView.addSubview(self.scrollContentView)
@@ -200,7 +212,9 @@ class EpisodeDetailsViewController: UIViewController {
     }
 
     private func setupSummary() {
-        self.summaryContentLabel.attributedText = .templatedHtml(self.viewModel.summary ?? "<em>No summary</em>")
+        let darkMode = self.traitCollection.userInterfaceStyle == .dark
+        self.summaryContentLabel.attributedText = .templatedHtml(self.viewModel.summary ?? "<em>No summary</em>",
+                                                                 darkMode: darkMode)
     }
 
 }

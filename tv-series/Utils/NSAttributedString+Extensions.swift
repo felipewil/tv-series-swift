@@ -10,7 +10,7 @@ import Foundation
 extension NSAttributedString {
 
     /// Returns a templated `NSAttributedString` string with the given HTML content, or nil if it can not be built.
-    static func templatedHtml(_ html: String) -> NSAttributedString? {
+    static func templatedHtml(_ html: String, darkMode: Bool = false) -> NSAttributedString? {
         let template = """
         <!doctype html>
         <html>
@@ -20,6 +20,7 @@ extension NSAttributedString {
                 font-family: -apple-system;
                 font-size: 17px;
                 text-align: justify;
+                color: \(darkMode ? "white" : "black")
               }
         
               p:last-child {
