@@ -77,7 +77,10 @@ class ShowsListViewController: UIViewController {
             .sink { [ weak self ] isLoading in self?.showLoading(isLoading) }
             .store(in: &self.cancellables)
 
-        self.viewModel.loadNextPage()
+        DispatchQueue.main.async {
+            self.showLoading(true, animated: false)
+            self.viewModel.loadNextPage()
+        }
     }
 
     // MARK: Helpers
@@ -181,14 +184,14 @@ class ShowsListViewController: UIViewController {
         }
     }
     
-    private func showLoading(_ show: Bool) {
+    private func showLoading(_ show: Bool, animated: Bool = true) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Show.ID>()
 
         snapshot.appendSections([ .list ])
         snapshot.appendItems(self.viewModel.showsIDs())
         snapshot.appendItems([ Identifiers.loadingMore.rawValue ])
 
-        self.dataSource?.apply(snapshot)
+        self.dataSource?.apply(snapshot, animatingDifferences: animated)
     }
 
 }

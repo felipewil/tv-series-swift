@@ -87,6 +87,7 @@ class EpisodeDetailsViewController: UIViewController {
 
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = UIColor(hex: "#242424")
 
         return imageView
     }()
@@ -178,7 +179,7 @@ class EpisodeDetailsViewController: UIViewController {
             self.summaryLabel.topAnchor.constraint(equalTo: self.imageView.bottomAnchor, constant: Consts.padding),
             self.summaryLabel.rightAnchor.constraint(equalTo: self.scrollContentView.rightAnchor, constant: -Consts.padding),
         ])
-        
+
         NSLayoutConstraint.activate([
             self.summaryContentLabel.leftAnchor.constraint(equalTo: self.scrollContentView.leftAnchor, constant: Consts.padding),
             self.summaryContentLabel.topAnchor.constraint(equalTo: self.summaryLabel.bottomAnchor),
@@ -189,6 +190,8 @@ class EpisodeDetailsViewController: UIViewController {
         if let imageUrl = self.viewModel.mediumImageUrl, let url = URL(string: imageUrl) {
             self.imageView.loadImage(url: url)
                 .store(in: &cancellables)
+        } else {
+            self.imageView.image = UIImage(systemName: "tv")
         }
 
         self.titleLabel.text = self.viewModel.name

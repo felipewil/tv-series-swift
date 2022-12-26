@@ -247,7 +247,8 @@ class ShowDetailsCell: UITableViewCell {
             imageView.widthAnchor.constraint(equalToConstant: 24.0),
         ])
 
-        let chipView = ChipView(title: self.viewModel.time ?? "")
+        let time = self.viewModel.time ?? ""
+        let chipView = ChipView(title: time.isEmpty ? "--:--" : time)
         chipView.translatesAutoresizingMaskIntoConstraints = false
         
         let filler = UILabel(frame: .zero)

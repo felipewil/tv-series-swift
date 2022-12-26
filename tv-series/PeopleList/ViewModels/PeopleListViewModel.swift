@@ -63,14 +63,10 @@ class PeopleListViewModel {
 
             return
         }
-        
+
         self.isLoading = true
         self.urlSession.dataTaskPublisher(for: url)
             .map(\.data)
-            .map { d in
-                
-                return d
-            }
             .decode(type: [ PeopleSearchResult ].self, decoder: JSONDecoder())
             .catch { _ in
                 self.isLoading = false

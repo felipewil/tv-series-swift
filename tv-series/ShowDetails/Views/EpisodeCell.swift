@@ -31,6 +31,7 @@ class EpisodeCell: UITableViewCell {
         
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = UIColor(hex: "#242424")
         
         return imageView
     }()
@@ -92,10 +93,15 @@ class EpisodeCell: UITableViewCell {
         NSLayoutConstraint.activate([
             self.episodeImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: Consts.padding),
             self.episodeImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: Consts.padding),
-            self.episodeImageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -Consts.padding),
             self.episodeImageView.heightAnchor.constraint(equalToConstant: Consts.imageHeight),
             self.episodeImageView.widthAnchor.constraint(equalToConstant: Consts.imageWidth),
         ])
+        
+        let bottomAnchor = self.episodeImageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor,
+                                                                         constant: -Consts.padding)
+        bottomAnchor.isActive = true
+        // Removing "breaking constraint" warning
+        bottomAnchor.priority = .defaultHigh
         
         let contentWrapper = UIView()
         contentWrapper.translatesAutoresizingMaskIntoConstraints = false
@@ -125,11 +131,11 @@ class EpisodeCell: UITableViewCell {
     }
 
     private func loadImage(viewModel: EpisodeCellViewModel) {
-        guard
-            let imageUrl = viewModel.mediumImageUrl,
-            let url = URL(string: imageUrl) else { return }
-
-        self.episodeImageView.loadImage(url: url).store(in: &cancellables)
+        if let imageUrl = viewModel.mediumImageUrl, let url = URL(string: imageUrl) {
+            self.episodeImageView.loadImage(url: url).store(in: &cancellables)
+        } else {
+            self.episodeImageView.image = UIImage(systemName: "tv")
+        }
     }
 
     private func setAirdate(_ airdate: String?) {

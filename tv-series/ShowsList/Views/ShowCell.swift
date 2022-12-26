@@ -112,10 +112,15 @@ class ShowCell: UITableViewCell {
         NSLayoutConstraint.activate([
             self.showImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: Consts.padding),
             self.showImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: Consts.padding),
-            self.showImageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -Consts.padding),
             self.showImageView.heightAnchor.constraint(equalToConstant: Consts.imageSize),
             self.showImageView.widthAnchor.constraint(equalToConstant: Consts.imageSize),
         ])
+
+        let bottomAnchor = self.showImageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor,
+                                                                      constant: -Consts.padding)
+        bottomAnchor.isActive = true
+        // Removing "breaking constraint" warning
+        bottomAnchor.priority = .defaultHigh
         
         NSLayoutConstraint.activate([
             self.nameLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),

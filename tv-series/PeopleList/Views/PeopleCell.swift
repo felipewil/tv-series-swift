@@ -84,11 +84,16 @@ class PeopleCell: UITableViewCell {
         NSLayoutConstraint.activate([
             self.peopleImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: Consts.padding),
             self.peopleImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: Consts.padding),
-            self.peopleImageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -Consts.padding),
             self.peopleImageView.heightAnchor.constraint(equalToConstant: Consts.imageSize),
             self.peopleImageView.widthAnchor.constraint(equalToConstant: Consts.imageSize),
         ])
-        
+
+        let bottomAnchor = self.peopleImageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor,
+                                                                      constant: -Consts.padding)
+        bottomAnchor.isActive = true
+        // Removing "breaking constraint" warning
+        bottomAnchor.priority = .defaultHigh
+
         NSLayoutConstraint.activate([
             self.nameLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
             self.nameLabel.leftAnchor.constraint(equalTo: self.peopleImageView.rightAnchor, constant: Consts.padding),
