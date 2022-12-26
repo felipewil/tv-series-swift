@@ -10,12 +10,14 @@ import Combine
 
 enum ShowDetailsViewModelEvent {
     case episodesUpdated
+    case reloadFavorite
 }
 
 class ShowDetailsViewModel {
     
     // MARK: Properties
     
+    let showsManager: ShowsManager
     let urlSession: URLSession
     let show: Show
     var name: String { self.show.name }
@@ -30,9 +32,11 @@ class ShowDetailsViewModel {
     
     // MARK: Initialization
     
-    init(show: Show, urlSession: URLSession = .shared) {
+    init(show: Show, showsManager: ShowsManager = .shared, urlSession: URLSession = .shared) {
         self.show = show
+        self.showsManager = showsManager
         self.urlSession = urlSession
+        self.setupNotifications()
     }
     
     // MARK: Public methods
@@ -76,6 +80,16 @@ class ShowDetailsViewModel {
         self.eventSubject.send(.episodesUpdated)
     }
     
+    /// Whether the show is favorite.
+    func isFavorite() -> Bool {
+        return self.showsManager.isFavorite(self.show)
+    }
+    
+    /// Handle show's favorite status toggled.
+    func favoriteToggled() {
+        return self.showsManager.toggleFavorite(for: self.show)
+    }
+    
     // MARK: Helpers
     
     private func handleEpisodes(_ episodes: [ Episode ]) {
@@ -83,6 +97,16 @@ class ShowDetailsViewModel {
             self.episodesBySeason[ep.season, default: []].append(ep)
         }
         self.selectedSeason = self.episodesBySeason.keys.min() ?? 1
+    }
+    
+    private func setupNotifications() {
+        NotificationCenter.default
+            .publisher(for: .showFavoriteToggled)
+            .sink { [ weak self ] notification in
+                guard notification.userInfo?["id"] as? Int == self?.show.id else { return }
+                self?.eventSubject.send(.reloadFavorite)
+            }
+            .store(in: &self.cancellables)
     }
 
 }

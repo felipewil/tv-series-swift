@@ -103,6 +103,12 @@ class ShowDetailsViewController: UIViewController {
             self.tableView.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor),
             self.tableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
         ])
+
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "heart"),
+                                                                 style: .plain,
+                                                                 target: self,
+                                                                 action: #selector(self.toggleFavorite))
+        self.updateFavoriteButton()
     }
     
     private func makeDataSource() -> UITableViewDiffableDataSource<Section, Int> {
@@ -145,6 +151,8 @@ class ShowDetailsViewController: UIViewController {
             }
 
             self.dataSource?.apply(snapshot)
+        case .reloadFavorite:
+            self.updateFavoriteButton()
         }
     }
     
@@ -162,6 +170,16 @@ class ShowDetailsViewController: UIViewController {
         snapshot.appendItems([ Identifier.loadingSeasons.rawValue ], toSection: .season)
         
         self.dataSource?.apply(snapshot, animatingDifferences: false)
+    }
+    
+    @objc private func toggleFavorite() {
+        self.viewModel.favoriteToggled()
+        self.updateFavoriteButton()
+    }
+    
+    private func updateFavoriteButton() {
+        let image = UIImage(systemName: self.viewModel.isFavorite() ? "heart.fill" : "heart")
+        self.navigationItem.rightBarButtonItem?.image = image
     }
 
 }
