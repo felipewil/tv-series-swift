@@ -105,7 +105,7 @@ class PinSettingsViewController: UIViewController {
         snapshot.appendSections([ .list ])
         snapshot.appendItems(self.viewModel.options.map { $0.rawValue }, toSection: .list)
 
-        self.dataSource?.apply(snapshot)
+        self.dataSource?.apply(snapshot, animatingDifferences: false)
     }
     
     private func reloadSettings() {

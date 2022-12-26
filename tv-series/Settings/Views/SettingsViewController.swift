@@ -92,7 +92,7 @@ class SettingsViewController: UIViewController {
         snapshot.appendSections([ .list ])
         snapshot.appendItems(self.viewModel.settings().map { $0.rawValue }, toSection: .list)
 
-        self.dataSource?.apply(snapshot)
+        self.dataSource?.apply(snapshot, animatingDifferences: false)
     }
 
 }

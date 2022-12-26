@@ -82,6 +82,7 @@ class ShowDetailsViewModel {
         episodes.forEach { ep in
             self.episodesBySeason[ep.season, default: []].append(ep)
         }
+        self.selectedSeason = self.episodesBySeason.keys.min() ?? 1
     }
 
 }

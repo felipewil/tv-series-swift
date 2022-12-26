@@ -81,11 +81,14 @@ class ShowDetailsViewController: UIViewController {
 
         self.viewModel.eventPublisher
             .receive(on: DispatchQueue.main)
-            .sink(receiveValue: self.handleEvent)
+            .sink{ [ weak self ] event in self?.handleEvent(event) }
             .store(in: &cancellables)
 
         self.loadDetails()
-        self.viewModel.loadEpisodes()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.viewModel.loadEpisodes()
+        }
     }
 
     // MARK: Helpers
@@ -141,9 +144,7 @@ class ShowDetailsViewController: UIViewController {
                 snapshot.appendItems(eps.ids(), toSection: .episodes)
             }
 
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                self.dataSource?.apply(snapshot)
-            }
+            self.dataSource?.apply(snapshot)
         }
     }
     
@@ -160,7 +161,7 @@ class ShowDetailsViewController: UIViewController {
         snapshot.appendItems([ Identifier.details.rawValue ], toSection: .details)
         snapshot.appendItems([ Identifier.loadingSeasons.rawValue ], toSection: .season)
         
-        self.dataSource?.apply(snapshot)
+        self.dataSource?.apply(snapshot, animatingDifferences: false)
     }
 
 }
