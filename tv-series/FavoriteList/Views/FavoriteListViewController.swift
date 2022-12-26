@@ -16,11 +16,13 @@ class FavoriteListViewController: UIViewController {
     
     private enum Section: Int {
         case empty
+        case loading
         case list
     }
     
     private enum Identifiers: Int {
         case empty = -1
+        case loading = -2
     }
 
     // MARK: Properties
@@ -104,6 +106,8 @@ class FavoriteListViewController: UIViewController {
                 let show = self.viewModel.show(at: indexPath.row)
                 let viewModel = ShowCellViewModel(show: show, canFavorite: false)
                 return ShowCell.dequeueReusableCell(from: tableView, viewModel: viewModel, for: indexPath)
+            } else if section == Section.loading {
+                return LoadingCell.dequeueReusableCell(from: tableView, description: "Loading", for: indexPath)
             }
             
             let cell = UITableViewCell()
@@ -138,6 +142,13 @@ class FavoriteListViewController: UIViewController {
                 snapshot.appendItems(showsIDs, toSection: .list)
             }
 
+            self.dataSource?.apply(snapshot)
+        case .loading:
+            var snapshot = NSDiffableDataSourceSnapshot<Section, Show.ID>()
+
+            snapshot.appendSections([ .loading ])
+            snapshot.appendItems([ Identifiers.loading.rawValue ], toSection: .loading)
+            
             self.dataSource?.apply(snapshot)
         }
     }

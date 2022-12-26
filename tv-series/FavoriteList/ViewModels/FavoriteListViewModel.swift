@@ -9,6 +9,7 @@ import Foundation
 import Combine
 
 enum FavoriteListEvent {
+    case loading
     case showsUpdated
 }
 
@@ -37,6 +38,10 @@ class FavoriteListViewModel {
     
     /// Loads the next page of shows
     func loadFavorites() {
+        if self.shows.count == 0 {
+            self.eventSubject.send(.loading)
+        }
+
         self.showsManager.loadFavorites { [ weak self ] in
             guard let self else { return }
 
