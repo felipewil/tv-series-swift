@@ -41,7 +41,7 @@ class ShowsListViewController: UIViewController {
         tableView.tableHeaderView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 0.0, height: CGFloat.leastNormalMagnitude))
         tableView.sectionHeaderTopPadding = 0.0
         tableView.sectionHeaderHeight = 0.0
-        tableView.sectionFooterHeight = 6.0
+        tableView.sectionFooterHeight = 0.0
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = Consts.estimatedRowSize
         tableView.delegate = self
